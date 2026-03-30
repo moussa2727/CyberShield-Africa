@@ -170,6 +170,13 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['lucide-react', 'react-icons'],
   },
   
+  // Output configuration pour Vercel
+  output: 'standalone', // Important pour Vercel deployment
+  trailingSlash: false, // Fix for dynamic routes
+  
+  // Ensure pages are properly handled
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
+  
   // React Compiler (expérimental)
   reactCompiler: true,
 };
