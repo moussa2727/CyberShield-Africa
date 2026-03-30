@@ -246,7 +246,7 @@ export function verifyToken(token: string): any {
 
 // Fonction pour hasher un mot de passe
 export async function hashPassword(password: string): Promise<string> {
-  const bcrypt = await import('bcrypt');
+  const bcrypt = await import('bcryptjs');
   const saltRounds = 12;
   return await bcrypt.hash(password, saltRounds);
 }
