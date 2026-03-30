@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAccessToken } from '@/src/lib/auth';
 
+// Force cette route à être dynamique
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function GET(request: NextRequest) {
   try {
     // Récupérer le token (cookie ou header)

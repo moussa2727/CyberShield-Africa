@@ -5,6 +5,10 @@ import { generateTokens, setAuthCookies } from '@/src/lib/auth';
 import { env } from '@/src/lib/env';
 import { registerSchema } from '@/src/validators/auth/register.validator';
 
+// Force cette route à être dynamique
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

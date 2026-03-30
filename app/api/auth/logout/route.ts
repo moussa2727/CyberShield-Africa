@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { clearAuthCookies } from '@/src/lib/auth';
 import { prisma } from '@/src/lib/prisma';
 
+// Force cette route à être dynamique
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function POST(request: NextRequest) {
   try {
     // Récupérer le refresh token du cookie

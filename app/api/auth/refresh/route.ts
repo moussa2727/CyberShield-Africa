@@ -3,6 +3,10 @@ import jwt from 'jsonwebtoken';
 import { prisma } from '@/src/lib/prisma';
 import { generateTokens, setAuthCookies } from '@/src/lib/auth';
 
+// Force cette route à être dynamique
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function POST(request: NextRequest) {
   try {
     // Récupérer le refresh token (cookie ou body)
