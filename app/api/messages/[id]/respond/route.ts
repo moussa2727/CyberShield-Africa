@@ -4,6 +4,10 @@ import { requireAdmin } from '@/src/lib/auth';
 import { validateRespondMessage } from '@/src/validators/messages';
 import { notifySenderAdminReply } from '@/src/lib/mailer';
 
+// Force cette route à être dynamique
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

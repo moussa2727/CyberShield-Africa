@@ -3,6 +3,10 @@ import { prisma } from '@/src/lib/prisma';
 import { requireAdmin } from '@/src/lib/auth';
 import { validateMarkAsRead } from '@/src/validators/messages';
 
+// Force cette route à être dynamique
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

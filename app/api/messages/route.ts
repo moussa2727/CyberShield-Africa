@@ -21,6 +21,9 @@ import { requireAdmin } from '@/src/lib/auth';
 import { notifyAdminNewContactMessage, emailService } from '@/src/lib/mailer';
 import { ZodIssue, ZodError } from 'zod';
 
+// Force cette route à être dynamique
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 // ============================================
 // HELPER FUNCTIONS
