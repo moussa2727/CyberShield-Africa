@@ -11,12 +11,16 @@ declare global {
 // Créer le pool de connexions PostgreSQL
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
 
 // Créer l'adapter
 const adapter = new PrismaPg(pool);
 
-// Créer le client avec l'adapter
-export const prisma = global.prisma ?? new PrismaClient({ adapter });
+// Créer le client avec l'adapter et configuration explicite
+export const prisma = global.prisma ?? new PrismaClient({ 
+  adapter,
+  errorFormat: 'pretty',
+});
 
 if (process.env.NODE_ENV !== 'production') global.prisma = prisma;
