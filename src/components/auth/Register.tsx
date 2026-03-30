@@ -89,7 +89,7 @@ export default function Register() {
       <div className="max-w-md w-full">
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl mb-4">
+          <Link href="/" className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl mb-4">
             <User className="text-white" size={32} />
           </Link>
           <h1 className="text-3xl font-bold text-gray-800">Inscription</h1>
