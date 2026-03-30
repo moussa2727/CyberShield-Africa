@@ -1,11 +1,11 @@
+import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 
 // Import dynamique pour éviter les erreurs en production
-const { PrismaClient } = require('@prisma/client');
 
 declare global {
-  var prisma: any;
+  var prisma: PrismaClient | undefined;
 }
 
 // Créer le pool de connexions PostgreSQL
@@ -27,4 +27,6 @@ export const prisma = global.prisma ?? new PrismaClient({
   log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
 });
 
-if (process.env.NODE_ENV !== 'production') global.prisma = prisma;
+if (process.env.NODE_ENV !== 'production') {
+  global.prisma = prisma;
+}
