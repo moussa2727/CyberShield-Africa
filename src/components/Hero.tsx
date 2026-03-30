@@ -4,7 +4,7 @@ import { Shield } from 'lucide-react'
 
 export default function Hero() {
   return (
-    <section className="pt-32 pb-20 bg-gradient-to-br from-green-50 via-white to-orange-50">
+    <section className="pt-32 pb-20 bg-linear-to-br from-green-50 via-white to-orange-50">
       <div className="mx-auto px-4 md:px-6">
         <div className="text-center max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-green-100 px-4 py-2 rounded-full mb-6">

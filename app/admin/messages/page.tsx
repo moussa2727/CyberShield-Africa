@@ -370,7 +370,7 @@ export default function MessagesAdmin() {
     <AdminLayout title="Gestion des messages">
       <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg">
+      <div className="bg-linear-to-r from-orange-500 to-orange-600 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
             <div>
@@ -589,7 +589,7 @@ export default function MessagesAdmin() {
                           >
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="flex items-center">
-                                <div className="flex-shrink-0 h-10 w-10">
+                                <div className="shrink-0 h-10 w-10">
                                   <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
                                     <span className="text-sm font-medium text-orange-600">
                                       {message.fullName.charAt(0).toUpperCase()}
@@ -754,16 +754,16 @@ export default function MessagesAdmin() {
                 <div className="bg-white rounded-lg shadow-md p-6 overflow-hidden">
                   <div className="flex flex-col lg:flex-row justify-between items-start mb-6 gap-4">
                     <div className="flex-1 min-w-0">
-                      <h2 className="text-2xl font-bold text-gray-800 break-words">{selectedMessage.fullName}</h2>
-                      <p className="text-gray-500 break-all">{selectedMessage.email}</p>
+                      <h2 className="text-2xl font-bold text-gray-800 wrap-break-word">{selectedMessage.fullName}</h2>
+                      <p className="text-gray-500 wrap-break-word">{selectedMessage.email}</p>
                       {selectedMessage.company && (
-                        <p className="text-sm text-gray-500 break-words">Entreprise: {selectedMessage.company}</p>
+                        <p className="text-sm text-gray-500 wrap-break-word">Entreprise: {selectedMessage.company}</p>
                       )}
                       {selectedMessage.service && (
-                        <p className="text-sm text-gray-500 break-words">Service: {selectedMessage.service}</p>
+                        <p className="text-sm text-gray-500 wrap-break-word">Service: {selectedMessage.service}</p>
                       )}
                     </div>
-                    <div className="flex flex-shrink-0 gap-2">
+                    <div className="flex shrink-0 gap-2">
                       {!selectedMessage.isRead && (
                         <button
                           onClick={() => markAsRead(selectedMessage.id, true)}
@@ -793,7 +793,7 @@ export default function MessagesAdmin() {
                   <div className="mb-6">
                     <h3 className="text-lg font-semibold text-gray-700 mb-2">Message</h3>
                     <div className="bg-gray-50 rounded-lg p-4 overflow-x-auto">
-                      <p className="text-gray-700 whitespace-pre-wrap break-words">{selectedMessage.message}</p>
+                      <p className="text-gray-700 whitespace-pre-wrap wrap-break-word">{selectedMessage.message}</p>
                     </div>
                   </div>
                   
@@ -842,7 +842,7 @@ export default function MessagesAdmin() {
               <div className="bg-gray-50 rounded-lg p-4">
                 <p className="text-sm text-gray-500 mb-2">Message original:</p>
                 <div className="bg-white rounded-lg p-4 max-h-[30vh] overflow-y-auto border border-gray-200">
-                  <p className="text-gray-700 whitespace-pre-wrap break-words">{selectedMessage.message}</p>
+                  <p className="text-gray-700 whitespace-pre-wrap wrap-break-word">{selectedMessage.message}</p>
                 </div>
               </div>
               
@@ -854,7 +854,7 @@ export default function MessagesAdmin() {
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
                   rows={6}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-none focus:outline-none focus:border-orange-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-none focus:outline-none focus:border-orange-500t"
                   placeholder="Écrivez votre réponse ici..."
                 />
                 <p className="text-xs text-gray-500 mt-1">

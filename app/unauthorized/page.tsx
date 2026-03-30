@@ -5,7 +5,7 @@ import { Shield, ArrowLeft } from 'lucide-react';
 
 export default function UnauthorizedPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-orange-50 to-white flex items-center justify-center p-4">
       <div className="max-w-md w-full text-center">
         <div className="inline-flex items-center justify-center w-24 h-24 bg-red-100 rounded-full mb-6">
           <Shield className="text-red-600" size={48} />

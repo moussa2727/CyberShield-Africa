@@ -1,7 +1,6 @@
+"use client"
 
-'use client'
-
-import { CheckCircle } from 'lucide-react'
+import { CheckCircle } from "lucide-react";
 
 export default function Mission() {
   const features = [
@@ -24,7 +23,7 @@ export default function Mission() {
           <ul className="space-y-4">
             {features.map((feature, index) => (
               <li key={index} className="flex items-start gap-3">
-                <CheckCircle className="text-emerald-600 mt-1 w-5 h-5 flex-shrink-0" />
+                <CheckCircle className="text-emerald-600 mt-1 w-5 h-5 shrink-0" />
                 <span>{feature}</span>
               </li>
             ))}

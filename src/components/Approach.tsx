@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import { Target, TrendingUp, Users, Shield, Eye, Zap } from 'lucide-react'
+import { Target, TrendingUp, Users, Shield, Eye, Zap } from "lucide-react";
 
 const approaches = [
   {
@@ -43,7 +43,7 @@ const approaches = [
 
 export default function Approach() {
   return (
-    <section id="approach" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+    <section id="approach" className="py-20 bg-linear-to-b from-gray-50 to-white">
       <div className="mx-auto px-4 md:px-6">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-block px-4 py-1 bg-orange-100 rounded-full mb-4">
@@ -63,7 +63,7 @@ export default function Approach() {
               key={index}
               className="flex gap-4 p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all"
             >
-              <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
+              <div className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${
                 approach.color === 'green' ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-500'
               }`}>
                 <approach.icon className="w-6 h-6" />

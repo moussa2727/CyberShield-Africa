@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   keywords: 'cybersécurité, PME, Afrique, Maroc, audit sécurité, pentest',
   authors: [{ name: 'CyberShield Africa' }],
   icons: {
-    icon: '/Cybershieldafrica.jpeg',
+    icon: '/favicon.ico',
   },
 }
 
