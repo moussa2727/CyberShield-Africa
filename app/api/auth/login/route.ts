@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '@/src/lib/prisma';
 import { generateTokens, setAuthCookies } from '@/src/lib/auth';
 import { loginSchema } from '@/src/validators/auth/login.validator';
-import type { User } from '@prisma/client';
+import { User } from '@prisma/client';
 
 export async function POST(request: NextRequest) {
   try {
