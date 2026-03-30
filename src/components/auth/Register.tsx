@@ -89,9 +89,9 @@ export default function Register() {
       <div className="max-w-md w-full">
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl mb-4">
+          <Link to="/" className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl mb-4">
             <User className="text-white" size={32} />
-          </div>
+          </Link>
           <h1 className="text-3xl font-bold text-gray-800">Inscription</h1>
           <p className="text-gray-500 mt-2">Créez votre espace administrateur</p>
         </div>
