@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '@/src/lib/prisma';
 import { generateTokens, setAuthCookies } from '@/src/lib/auth';
 import { loginSchema } from '@/src/validators/auth/login.validator';
-import type { User } from '@prisma/client';
 
 export async function POST(request: NextRequest) {
   try {
@@ -54,7 +53,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Générer les tokens
-    const { accessToken, refreshToken } = generateTokens(user as User, rememberMe);
+    const { accessToken, refreshToken } = generateTokens(user, rememberMe);
 
     // Sauvegarder le refresh token
     const expiresAt = rememberMe 
