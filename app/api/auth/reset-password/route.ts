@@ -3,6 +3,10 @@ import { z } from 'zod';
 import { prisma } from '@/src/lib/prisma';
 import { verifyToken, hashPassword } from '@/src/lib/auth';
 
+// Force cette route à être dynamique
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 // Schéma de validation
 const resetPasswordSchema = z.object({
   token: z.string().min(1, 'Token requis'),

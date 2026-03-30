@@ -4,6 +4,10 @@ import { prisma } from '@/src/lib/prisma';
 import { generateToken } from '@/src/lib/auth';
 import { sendPasswordResetEmail } from '@/src/lib/mailer';
 
+// Force cette route à être dynamique
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 // Schéma de validation
 const forgotPasswordSchema = z.object({
   email: z.string().email('Email invalide'),
