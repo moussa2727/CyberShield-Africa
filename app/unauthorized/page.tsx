@@ -21,7 +21,7 @@ export default function UnauthorizedPage() {
         
         <div className="space-y-3">
           <Link
-            href="/admin/messages"
+            href="/"
             className="inline-flex items-center justify-center gap-2 w-full px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
           >
             <ArrowLeft size={18} />
