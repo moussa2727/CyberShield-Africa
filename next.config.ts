@@ -173,6 +173,9 @@ const nextConfig: NextConfig = {
   // Output configuration removed for compatibility with next start
   trailingSlash: false, // Fix for dynamic routes
   
+  // Désactiver le prérendering pour les pages admin
+  excludeDefaultMomentLocales: true,
+  
   // Ensure pages are properly handled
   pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
   

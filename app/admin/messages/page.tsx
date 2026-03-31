@@ -1,6 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+
+// Force cette page à être dynamique
+export const dynamic = 'force-dynamic';
+
 import { 
   MessageSquare, 
   Search, 

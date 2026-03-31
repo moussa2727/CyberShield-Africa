@@ -5,6 +5,9 @@ import AdminLayout from '@/src/components/admin/AdminLayout';
 import { useRequireAdmin } from '@/src/contexts/AuthContext';
 import { toast } from 'sonner';
 
+// Force cette page à être dynamique
+export const dynamic = 'force-dynamic';
+
 interface AdminProfileData {
   id: string;
   firstName: string;
