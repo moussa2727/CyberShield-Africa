@@ -8,6 +8,7 @@ import {
   X, 
   MessageSquare, 
   Shield,
+  User,
   LogOut
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
@@ -19,6 +20,11 @@ interface SidebarItem {
 }
 
 const sidebarItems: SidebarItem[] = [
+  {
+    label: 'Profil',
+    href: '/admin/profile',
+    icon: User,
+  },
   {
     label: 'Messages',
     href: '/admin/messages',
