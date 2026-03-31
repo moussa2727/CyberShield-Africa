@@ -21,6 +21,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   refreshToken: () => Promise<boolean>;
   checkAuth: () => Promise<boolean>;
+  updateUser: (userData: Partial<User>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -245,6 +246,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [router]);
 
+  const updateUser = useCallback((userData: Partial<User>) => {
+    setUser((prevUser) => {
+      if (!prevUser) return prevUser;
+      return { ...prevUser, ...userData };
+    });
+  }, []);
+
   // Vérifier l'auth au chargement
   useEffect(() => {
     const initAuth = async () => {
@@ -265,6 +273,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     logout,
     refreshToken,
     checkAuth,
+    updateUser,
   };
 
   return (
@@ -281,3 +290,33 @@ export const useAuth = () => {
   }
   return context;
 };
+
+export function useRequireAuth() {
+  const auth = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!auth.isLoading && !auth.user) {
+      router.push('/auth/login');
+    }
+  }, [auth.isLoading, auth.user, router]);
+
+  return auth;
+}
+
+export function useRequireAdmin() {
+  const auth = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!auth.isLoading) {
+      if (!auth.user) {
+        router.push('/auth/login');
+      } else if (auth.user.role !== 'ADMIN') {
+        router.push('/unauthorized');
+      }
+    }
+  }, [auth.isLoading, auth.user, router]);
+
+  return auth;
+}

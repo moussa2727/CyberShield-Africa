@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import AdminLayout from '@/src/components/admin/AdminLayout';
-import { useRequireAdmin } from '@/src/contexts/AuthContext';
+import { useRequireAdmin } from '@/src/hooks/useAuth';
 import { toast } from 'sonner';
+import { User, Mail, Key, Shield, Lock, Save, RefreshCw } from 'lucide-react';
 
 // Force cette page à être dynamique
 export const dynamic = 'force-dynamic';
@@ -151,107 +152,189 @@ export default function AdminProfile() {
     }
   };
 
+  if (loading) {
+    return (
+      <AdminLayout title="Profil administrateur">
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center">
+            <RefreshCw className="h-8 w-8 animate-spin text-orange-600 mx-auto mb-4" />
+            <p className="text-gray-600">Chargement du profil...</p>
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  }
+
   return (
     <AdminLayout title="Profil administrateur">
       <div className="space-y-8">
-        <section className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Données du profil</h2>
+        {/* Section Profil */}
+        <section className="bg-white rounded-2xl border border-gray-100 shadow-lg shadow-gray-100/50 p-6 transition-all duration-200 hover:shadow-xl">
+          <div className="flex items-center gap-3 mb-6 pb-3 border-b border-gray-100">
+            <div className="p-2 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-md">
+              <User className="h-5 w-5 text-white" />
+            </div>
+            <h2 className="text-xl font-bold text-gray-800">Informations personnelles</h2>
+          </div>
 
-          {loading ? (
-            <p>Chargement...</p>
-          ) : profile ? (
-            <form className="space-y-4" onSubmit={handleProfileSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Prénom</label>
-                  <input
-                    type="text"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-none focus:outline-none focus:border-orange-500 hover:border-orange-500"
-                    required
-                  />
+          {profile ? (
+            <form className="space-y-5" onSubmit={handleProfileSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="group">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Prénom
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
+                    <input
+                      type="text"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                      required
+                    />
+                  </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Nom</label>
-                  <input
-                    type="text"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-none focus:outline-none focus:border-orange-500 hover:border-orange-500"
-                    required
-                  />
+                <div className="group">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Nom
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
+                    <input
+                      type="text"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                      required
+                    />
+                  </div>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Email (admin)</label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 shadow-sm cursor-not-allowed focus:ring-none focus:outline-none focus:border-gray-300 hover:border-gray-300"
-                  disabled
-                />
-                <p className="text-xs text-gray-500 mt-1">L'email administrateur ne peut pas être modifié.</p>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Adresse email
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-100 cursor-not-allowed text-gray-500"
+                    disabled
+                  />
+                </div>
+                <div className="mt-2 flex items-center gap-2">
+                  <Shield className="h-3.5 w-3.5 text-amber-500" />
+                  <p className="text-xs text-gray-500">L'email administrateur ne peut pas être modifié pour des raisons de sécurité.</p>
+                </div>
               </div>
 
               <button
                 type="submit"
-                className="inline-flex items-center justify-center rounded-md bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white text-sm font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={profileUpdating}
               >
-                {profileUpdating ? 'Mise à jour...' : 'Mettre à jour le profil'}
+                {profileUpdating ? (
+                  <>
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                    Mise à jour...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4" />
+                    Mettre à jour le profil
+                  </>
+                )}
               </button>
             </form>
           ) : (
-            <p className="text-sm text-red-600">Impossible de charger le profil.</p>
+            <div className="text-center py-8">
+              <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                <p className="text-sm text-red-600">Impossible de charger le profil. Veuillez réessayer.</p>
+              </div>
+            </div>
           )}
         </section>
 
-        <section className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Modifier le mot de passe</h2>
-          <form className="space-y-4" onSubmit={handlePasswordSubmit}>
+        {/* Section Mot de passe */}
+        <section className="bg-white rounded-2xl border border-gray-100 shadow-lg shadow-gray-100/50 p-6 transition-all duration-200 hover:shadow-xl">
+          <div className="flex items-center gap-3 mb-6 pb-3 border-b border-gray-100">
+            <div className="p-2 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-md">
+              <Key className="h-5 w-5 text-white" />
+            </div>
+            <h2 className="text-xl font-bold text-gray-800">Modifier le mot de passe</h2>
+          </div>
+
+          <form className="space-y-5" onSubmit={handlePasswordSubmit}>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Mot de passe actuel</label>
-              <input
-                type="password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-none focus:outline-none focus:border-orange-500 hover:border-orange-500"
-                required
-              />
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Mot de passe actuel
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <input
+                  type="password"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                  required
+                />
+              </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
-              <input
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-none focus:outline-none focus:border-orange-500 hover:border-orange-500"
-                required
-              />
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Nouveau mot de passe
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                  required
+                />
+              </div>
+              <p className="mt-1 text-xs text-gray-500">Minimum 8 caractères pour plus de sécurité</p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Confirmer le nouveau mot de passe</label>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-none focus:outline-none focus:border-orange-500 hover:border-orange-500"
-                required
-              />
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Confirmer le nouveau mot de passe
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                  required
+                />
+              </div>
             </div>
 
             <button
               type="submit"
-              className="inline-flex items-center justify-center rounded-md bg-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-700"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white text-sm font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={passwordUpdating}
             >
-              {passwordUpdating ? 'Traitement...' : 'Mettre à jour le mot de passe'}
+              {passwordUpdating ? (
+                <>
+                  <RefreshCw className="h-4 w-4 animate-spin" />
+                  Traitement...
+                </>
+              ) : (
+                <>
+                  <Key className="h-4 w-4" />
+                  Mettre à jour le mot de passe
+                </>
+              )}
             </button>
           </form>
         </section>

@@ -49,11 +49,11 @@ export default function AdminSidebar() {
   };
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full bg-gradient-to-b from-gray-900 to-gray-800 border-r border-gray-700">
+    <div className="flex flex-col h-full bg-linear-to-b from-gray-900 to-gray-800 border-r border-gray-700">
       {/* Header */}
       <div className="p-3 border-b border-gray-700">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
+          <div className="w-7 h-7 bg-linear-to-r from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
             <Shield className="text-white" size={14} />
           </div>
           <div>
