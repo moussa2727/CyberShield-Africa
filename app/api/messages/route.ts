@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const url = new URL(request.url);
     
-    // Check if this is a respond endpoint
+    // Check if this is a respond endpoint (admin only)
     if (url.pathname.includes('/respond')) {
       const adminResponse = await ensureAdmin(request);
       if (adminResponse) return adminResponse;
@@ -197,7 +197,7 @@ export async function POST(request: NextRequest) {
       });
     }
     
-    // Regular create message endpoint
+    // Regular create message endpoint (PUBLIC - no auth required)
     const validation = validateRequest(validateCreateMessage, body);
     
     if (!validation.valid) {
