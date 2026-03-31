@@ -130,74 +130,9 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const url = new URL(request.url);
     
-    // Check if this is a respond endpoint (admin only)
-    if (url.pathname.includes('/respond')) {
-      const adminResponse = await ensureAdmin(request);
-      if (adminResponse) return adminResponse;
-
-      const id = url.pathname.split('/').slice(-2)[0];
-      const validation = validateRequest(validateRespondMessage, body);
-      
-      if (!validation.valid) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: 'Validation error',
-            errors: validation.errors,
-          },
-          { status: 400 }
-        );
-      }
-      
-      const data = validation.data as RespondMessageData;
-      
-      // Call your API with the validated data
-      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/messages/${id}/respond`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: request.headers.get('Authorization') || '',
-        },
-        body: JSON.stringify({ response: data.response }),
-      });
-      
-      const result = await response.json();
-      
-      if (!response.ok) {
-        return handleApiError(result);
-      }
-      
-      // Notifier l'utilisateur que l'admin a répondu
-      if (result.success && result.data?.id) {
-        try {
-          // Récupérer les détails du message pour notifier l'utilisateur
-          const messageResponse = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/messages/${id}`, {
-            headers: {
-              'Authorization': request.headers.get('Authorization') || '',
-            },
-          });
-          
-          const messageData = await messageResponse.json();
-          
-          if (messageData.success && messageData.data?.email) {
-            await emailService.notifyAdminResponse({
-              fullName: messageData.data.fullName || 'Client',
-              email: messageData.data.email,
-              adminResponse: data.response,
-            });
-          }
-        } catch (err) {
-          console.error('Error notifying user of admin response:', err);
-        }
-      }
-      
-      return NextResponse.json({
-        success: true,
-        data: result,
-      });
-    }
+    console.log('POST /api/messages - pathname:', url.pathname);
     
-    // Regular create message endpoint (PUBLIC - no auth required)
+    // This endpoint only handles message creation (PUBLIC)
     const validation = validateRequest(validateCreateMessage, body);
     
     if (!validation.valid) {
@@ -263,6 +198,7 @@ export async function POST(request: NextRequest) {
     });
     
   } catch (error) {
+    console.error('POST /api/messages error:', error);
     return handleApiError((error as Error));
   }
 }

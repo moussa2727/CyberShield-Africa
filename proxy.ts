@@ -6,7 +6,7 @@ export async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Routes publiques
-  const publicPaths = ['/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password', '/api/auth/login', '/api/auth/register', '/api/auth/forgot-password', '/api/auth/reset-password'];
+  const publicPaths = [ '/', '/robots.txt', '/sitemap.xml', '/unauthorized', '/_not-found', '/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password', '/api/auth/login', '/api/auth/register', '/api/auth/forgot-password', '/api/auth/reset-password'];
   if (publicPaths.includes(path)) {
     return NextResponse.next();
   }
@@ -14,7 +14,7 @@ export async function proxy(request: NextRequest) {
   // Vérifier si c'est une route API protégée
   if (path.startsWith('/api/')) {
     // Routes API publiques
-    const publicApiPaths = ['/api/auth/login', '/api/auth/register', '/api/auth/refresh', '/api/auth/forgot-password', '/api/auth/reset-password'];
+    const publicApiPaths = ['/api/auth/login', '/api/auth/register', '/api/auth/refresh', '/api/auth/forgot-password', '/api/auth/reset-password', '/api/messages'];
     if (publicApiPaths.includes(path)) {
       return NextResponse.next();
     }
