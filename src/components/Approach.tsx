@@ -1,45 +1,45 @@
-"use client"
+'use client';
 
-import { Target, TrendingUp, Users, Shield, Eye, Zap } from "lucide-react";
+import { Target, TrendingUp, Users, Shield, Eye, Zap } from 'lucide-react';
 
 const approaches = [
   {
     icon: Target,
     title: 'Analyse Approfondie',
     description: 'Identification précise des vulnérabilités spécifiques à votre secteur.',
-    color: 'green'
+    color: 'green',
   },
   {
     icon: TrendingUp,
     title: 'Stratégie Adaptée',
     description: 'Solutions personnalisées selon la taille et les besoins de votre PME.',
-    color: 'orange'
+    color: 'orange',
   },
   {
     icon: Users,
     title: 'Accompagnement Humain',
     description: 'Support dédié et formation de vos équipes aux bonnes pratiques.',
-    color: 'green'
+    color: 'green',
   },
   {
     icon: Shield,
     title: 'Protection Continue',
     description: 'Surveillance 24/7 et mises à jour régulières de sécurité.',
-    color: 'orange'
+    color: 'orange',
   },
   {
     icon: Eye,
     title: 'Transparence Totale',
     description: 'Rapports détaillés et communication claire sur votre posture de sécurité.',
-    color: 'green'
+    color: 'green',
   },
   {
     icon: Zap,
     title: 'Réaction Rapide',
     description: 'Intervention immédiate face aux incidents de sécurité détectés.',
-    color: 'orange'
-  }
-]
+    color: 'orange',
+  },
+];
 
 export default function Approach() {
   return (
@@ -63,9 +63,13 @@ export default function Approach() {
               key={index}
               className="flex gap-4 p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all"
             >
-              <div className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${
-                approach.color === 'green' ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-500'
-              }`}>
+              <div
+                className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${
+                  approach.color === 'green'
+                    ? 'bg-green-100 text-green-600'
+                    : 'bg-orange-100 text-orange-500'
+                }`}
+              >
                 <approach.icon className="w-6 h-6" />
               </div>
               <div>
@@ -77,5 +81,5 @@ export default function Approach() {
         </div>
       </div>
     </section>
-  )
+  );
 }

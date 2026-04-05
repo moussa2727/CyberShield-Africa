@@ -1,27 +1,27 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { Menu, X, Shield } from 'lucide-react'
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { Menu, X, Shield } from 'lucide-react';
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { href: '#services', label: 'Services' },
     { href: '#approach', label: 'Approche' },
     { href: '#testimonials', label: 'Témoignages' },
     { href: '#contact', label: 'Contact', isButton: true },
-  ]
+  ];
 
   return (
     <nav
@@ -43,7 +43,7 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex gap-8 items-center font-medium text-sm">
-            {navLinks.map((link) => (
+            {navLinks.map((link) =>
               link.isButton ? (
                 <Link
                   key={link.href}
@@ -60,8 +60,8 @@ export default function Header() {
                 >
                   {link.label}
                 </Link>
-              )
-            ))}
+              ),
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -96,5 +96,5 @@ export default function Header() {
         )}
       </div>
     </nav>
-  )
+  );
 }

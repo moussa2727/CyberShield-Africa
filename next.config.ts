@@ -1,10 +1,10 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   // Optimisation Vercel
   compress: true,
   poweredByHeader: false,
-  
+
   // Configuration images pour Vercel
   images: {
     remotePatterns: [
@@ -40,7 +40,7 @@ const nextConfig: NextConfig = {
         destination: '/',
         permanent: true,
       },
-      
+
       // Redirections pour les pages de services (anciennes URLs)
       {
         source: '/cybersecurity-audit',
@@ -67,7 +67,7 @@ const nextConfig: NextConfig = {
         destination: '/services/compliance-management',
         permanent: true,
       },
-      
+
       // Redirections temporaires (302) pour les campagnes marketing
       {
         source: '/promo',
@@ -79,7 +79,7 @@ const nextConfig: NextConfig = {
         destination: '/services',
         permanent: false,
       },
-      
+
       // Redirections pour les erreurs courantes
       {
         source: '/404',
@@ -91,7 +91,7 @@ const nextConfig: NextConfig = {
         destination: '/',
         permanent: true,
       },
-    ]
+    ];
   },
 
   // Configuration des réécritures d'URL
@@ -102,13 +102,13 @@ const nextConfig: NextConfig = {
         source: '/api/v1/:path*',
         destination: '/api/:path*',
       },
-      
+
       // Réécritures pour les services (si vous avez des routes dynamiques)
       {
         source: '/service/:slug',
         destination: '/services/:slug',
       },
-    ]
+    ];
   },
 
   // Configuration des headers optimisée pour Vercel
@@ -161,7 +161,7 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-    ]
+    ];
   },
 
   // Experimental features pour Vercel
@@ -169,16 +169,16 @@ const nextConfig: NextConfig = {
     optimizeCss: true,
     optimizePackageImports: ['lucide-react', 'react-icons'],
   },
-  
+
   // Output configuration removed for compatibility with next start
   trailingSlash: false, // Fix for dynamic routes
-  
+
   // Désactiver le prérendering pour les pages admin
   excludeDefaultMomentLocales: true,
-  
+
   // Ensure pages are properly handled
   pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
-  
+
   // React Compiler (expérimental)
   reactCompiler: true,
 };

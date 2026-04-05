@@ -26,17 +26,16 @@ const getPrismaClient = () => {
   // Create adapter
   const adapter = new PrismaPg(pool);
 
-  // Return client with adapter
+  // Return client with adapter - no query logging to avoid console spam
   return new PrismaClient({
     adapter,
-    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+    log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
   });
 };
 
 // Use global variable only in development to prevent too many connections
-const prismaClient = process.env.NODE_ENV === 'production' 
-  ? getPrismaClient()
-  : (global.prisma ?? getPrismaClient());
+const prismaClient =
+  process.env.NODE_ENV === 'production' ? getPrismaClient() : (global.prisma ?? getPrismaClient());
 
 export const prisma = prismaClient;
 

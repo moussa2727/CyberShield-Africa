@@ -16,12 +16,12 @@ export async function POST(request: NextRequest) {
 
     if (!validation.success) {
       return NextResponse.json(
-        { 
-          success: false, 
+        {
+          success: false,
           error: 'Validation error',
-          errors: validation.error.flatten().fieldErrors 
+          errors: validation.error.flatten().fieldErrors,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -29,13 +29,13 @@ export async function POST(request: NextRequest) {
 
     // Vérifier si l'email existe déjà
     const existingUser = await prisma.user.findUnique({
-      where: { email }
+      where: { email },
     });
 
     if (existingUser) {
       return NextResponse.json(
         { success: false, error: 'Cet email est déjà utilisé' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
         email: true,
         role: true,
         createdAt: true,
-      }
+      },
     });
 
     // Générer les tokens
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
         token: refreshToken,
         userId: user.id,
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 jours
-      }
+      },
     });
 
     // Créer la réponse avec les cookies
@@ -95,12 +95,11 @@ export async function POST(request: NextRequest) {
     setAuthCookies(response, accessToken, refreshToken);
 
     return response;
-
   } catch (error) {
     console.error('Register error:', error);
     return NextResponse.json(
-      { success: false, error: 'Erreur lors de l\'inscription' },
-      { status: 500 }
+      { success: false, error: "Erreur lors de l'inscription" },
+      { status: 500 },
     );
   }
 }

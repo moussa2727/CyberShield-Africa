@@ -15,12 +15,12 @@ export async function POST(request: NextRequest) {
 
     if (!validation.success) {
       return NextResponse.json(
-        { 
-          success: false, 
+        {
+          success: false,
           error: 'Validation error',
-          errors: validation.error.flatten().fieldErrors 
+          errors: validation.error.flatten().fieldErrors,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -28,13 +28,13 @@ export async function POST(request: NextRequest) {
 
     // Trouver l'utilisateur
     const user = await prisma.user.findUnique({
-      where: { email }
+      where: { email },
     });
 
     if (!user) {
       return NextResponse.json(
         { success: false, error: 'Email ou mot de passe incorrect' },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -44,23 +44,20 @@ export async function POST(request: NextRequest) {
     if (!isValidPassword) {
       return NextResponse.json(
         { success: false, error: 'Email ou mot de passe incorrect' },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
     // Vérifier si l'utilisateur est actif
     if (!user.isActive) {
-      return NextResponse.json(
-        { success: false, error: 'Compte désactivé' },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, error: 'Compte désactivé' }, { status: 401 });
     }
 
     // Générer les tokens
     const { accessToken, refreshToken } = generateTokens(user, rememberMe);
 
     // Sauvegarder le refresh token
-    const expiresAt = rememberMe 
+    const expiresAt = rememberMe
       ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 jours
       : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 jours
 
@@ -69,7 +66,7 @@ export async function POST(request: NextRequest) {
         token: refreshToken,
         userId: user.id,
         expiresAt,
-      }
+      },
     });
 
     // Créer la réponse
@@ -90,12 +87,11 @@ export async function POST(request: NextRequest) {
     setAuthCookies(response, accessToken, refreshToken, rememberMe);
 
     return response;
-
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
       { success: false, error: 'Erreur lors de la connexion' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

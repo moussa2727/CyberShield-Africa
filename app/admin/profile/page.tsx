@@ -181,9 +181,7 @@ export default function AdminProfile() {
             <form className="space-y-5" onSubmit={handleProfileSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="group">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Prénom
-                  </label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Prénom</label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
                     <input
@@ -197,9 +195,7 @@ export default function AdminProfile() {
                 </div>
 
                 <div className="group">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Nom
-                  </label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Nom</label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
                     <input
@@ -229,7 +225,9 @@ export default function AdminProfile() {
                 </div>
                 <div className="mt-2 flex items-center gap-2">
                   <Shield className="h-3.5 w-3.5 text-amber-500" />
-                  <p className="text-xs text-gray-500">L'email administrateur ne peut pas être modifié pour des raisons de sécurité.</p>
+                  <p className="text-xs text-gray-500">
+                    L'email administrateur ne peut pas être modifié pour des raisons de sécurité.
+                  </p>
                 </div>
               </div>
 
@@ -254,7 +252,9 @@ export default function AdminProfile() {
           ) : (
             <div className="text-center py-8">
               <div className="bg-red-50 border border-red-200 rounded-xl p-4">
-                <p className="text-sm text-red-600">Impossible de charger le profil. Veuillez réessayer.</p>
+                <p className="text-sm text-red-600">
+                  Impossible de charger le profil. Veuillez réessayer.
+                </p>
               </div>
             </div>
           )}
@@ -300,7 +300,9 @@ export default function AdminProfile() {
                   required
                 />
               </div>
-              <p className="mt-1 text-xs text-gray-500">Minimum 8 caractères pour plus de sécurité</p>
+              <p className="mt-1 text-xs text-gray-500">
+                Minimum 8 caractères pour plus de sécurité
+              </p>
             </div>
 
             <div>

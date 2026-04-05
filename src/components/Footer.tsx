@@ -1,15 +1,5 @@
-import { 
-  Shield, 
-  Mail, 
-  Phone, 
-  MapPin 
-} from 'lucide-react'
-import { 
-  FaFacebook, 
-  FaTwitter, 
-  FaLinkedin, 
-  FaGithub 
-} from 'react-icons/fa'
+import { Shield, Mail, Phone, MapPin } from 'lucide-react';
+import { FaFacebook, FaTwitter, FaLinkedin, FaGithub } from 'react-icons/fa';
 
 export default function Footer() {
   return (
@@ -26,7 +16,8 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-gray-400 text-sm">
-              Sécurisez la transformation numérique de votre PME en Afrique avec des solutions adaptées et accessibles.
+              Sécurisez la transformation numérique de votre PME en Afrique avec des solutions
+              adaptées et accessibles.
             </p>
           </div>
 
@@ -34,10 +25,26 @@ export default function Footer() {
           <div>
             <h4 className="font-bold mb-4 text-lg">Liens Rapides</h4>
             <ul className="space-y-2 text-gray-400">
-              <li><a href="#services" className="hover:text-green-500 transition">Services</a></li>
-              <li><a href="#approach" className="hover:text-green-500 transition">Approche</a></li>
-              <li><a href="#testimonials" className="hover:text-green-500 transition">Témoignages</a></li>
-              <li><a href="#contact" className="hover:text-green-500 transition">Contact</a></li>
+              <li>
+                <a href="#services" className="hover:text-green-500 transition">
+                  Services
+                </a>
+              </li>
+              <li>
+                <a href="#approach" className="hover:text-green-500 transition">
+                  Approche
+                </a>
+              </li>
+              <li>
+                <a href="#testimonials" className="hover:text-green-500 transition">
+                  Témoignages
+                </a>
+              </li>
+              <li>
+                <a href="#contact" className="hover:text-green-500 transition">
+                  Contact
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -94,5 +101,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

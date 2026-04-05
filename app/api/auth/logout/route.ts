@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     if (refreshToken) {
       // Supprimer le refresh token de la base de données
       await prisma.refreshToken.deleteMany({
-        where: { token: refreshToken }
+        where: { token: refreshToken },
       });
     }
 
@@ -28,12 +28,11 @@ export async function POST(request: NextRequest) {
     clearAuthCookies(response);
 
     return response;
-
   } catch (error) {
     console.error('Logout error:', error);
     return NextResponse.json(
       { success: false, error: 'Erreur lors de la déconnexion' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

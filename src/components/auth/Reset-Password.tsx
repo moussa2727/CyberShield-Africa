@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -10,7 +9,7 @@ import { toast } from 'sonner';
 export default function ResetPassword() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
-  
+
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +29,7 @@ export default function ResetPassword() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!token) {
       toast.error('Erreur', {
         description: 'Token de réinitialisation manquant',
@@ -54,7 +53,7 @@ export default function ResetPassword() {
 
     try {
       setLoading(true);
-      
+
       const response = await fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: {
@@ -93,17 +92,18 @@ export default function ResetPassword() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
-            <Link href="/" className="mx-auto h-12 w-12 bg-red-100 rounded-full flex items-center justify-center">
+            <Link
+              href="/"
+              className="mx-auto h-12 w-12 bg-red-100 rounded-full flex items-center justify-center"
+            >
               <XCircle className="h-6 w-6 text-red-600" />
             </Link>
-            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-              Lien invalide
-            </h2>
+            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Lien invalide</h2>
             <p className="mt-2 text-sm text-gray-600">
               Ce lien de réinitialisation est invalide ou a expiré.
             </p>
           </div>
-          
+
           <div className="mt-6">
             <Link
               href="/auth/forgot-password"
@@ -132,7 +132,7 @@ export default function ResetPassword() {
               Votre mot de passe a été mis à jour avec succès.
             </p>
           </div>
-          
+
           <div className="mt-6">
             <Link
               href="/auth/login"
@@ -157,12 +157,10 @@ export default function ResetPassword() {
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
               Réinitialiser le mot de passe
             </h2>
-            <p className="mt-2 text-sm text-gray-600">
-              Entrez votre nouveau mot de passe
-            </p>
+            <p className="mt-2 text-sm text-gray-600">Entrez votre nouveau mot de passe</p>
           </div>
         </div>
-        
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -248,10 +246,7 @@ export default function ResetPassword() {
           </div>
 
           <div className="text-center">
-            <Link
-              href="/auth/login"
-              className="text-sm text-orange-600 hover:text-orange-500"
-            >
+            <Link href="/auth/login" className="text-sm text-orange-600 hover:text-orange-500">
               Retour à la connexion
             </Link>
           </div>

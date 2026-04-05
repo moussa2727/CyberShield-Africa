@@ -26,31 +26,24 @@ export async function GET(request: NextRequest) {
     const token = await getTokenFromRequest(request);
 
     if (!token) {
-      return NextResponse.json(
-        { success: false, error: 'Non authentifié' },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, error: 'Non authentifié' }, { status: 401 });
     }
 
     const user = await verifyAccessToken(token);
 
     if (!user) {
-      return NextResponse.json(
-        { success: false, error: 'Token invalide' },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, error: 'Token invalide' }, { status: 401 });
     }
 
     return NextResponse.json({
       success: true,
       user,
     });
-
   } catch (error) {
     console.error('Me error:', error);
     return NextResponse.json(
       { success: false, error: 'Erreur lors de la récupération du profil' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -60,19 +53,13 @@ export async function PATCH(request: NextRequest) {
     const token = await getTokenFromRequest(request);
 
     if (!token) {
-      return NextResponse.json(
-        { success: false, error: 'Non authentifié' },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, error: 'Non authentifié' }, { status: 401 });
     }
 
     const user = await verifyAccessToken(token);
 
     if (!user) {
-      return NextResponse.json(
-        { success: false, error: 'Token invalide' },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, error: 'Token invalide' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -85,7 +72,7 @@ export async function PATCH(request: NextRequest) {
           error: 'Validation error',
           errors: validation.error.flatten().fieldErrors,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -95,8 +82,8 @@ export async function PATCH(request: NextRequest) {
 
     if (email && user.email.toLowerCase() === adminEmail && email.toLowerCase() !== adminEmail) {
       return NextResponse.json(
-        { success: false, error: 'L\'email admin ne peut pas être modifié' },
-        { status: 403 }
+        { success: false, error: "L'email admin ne peut pas être modifié" },
+        { status: 403 },
       );
     }
 
@@ -105,7 +92,7 @@ export async function PATCH(request: NextRequest) {
       if (existing) {
         return NextResponse.json(
           { success: false, error: 'Cet email est déjà utilisé par un autre compte' },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -135,12 +122,11 @@ export async function PATCH(request: NextRequest) {
       message: 'Profil mis à jour avec succès',
       user: updatedUser,
     });
-
   } catch (error) {
     console.error('Me PATCH error:', error);
     return NextResponse.json(
       { success: false, error: 'Erreur lors de la mise à jour du profil' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

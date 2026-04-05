@@ -7,12 +7,14 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 export async function GET(request: NextRequest) {
+  const timestamp = new Date().toISOString();
+
+  console.log(`[${timestamp}] GET /api/messages/statistics - Requête reçue`);
+
   const admin = await requireAdmin(request);
   if (!admin.authorized) {
-    return NextResponse.json(
-      { success: false, error: admin.error },
-      { status: admin.status }
-    );
+    console.error(`[${timestamp}] GET /api/messages/statistics - Accès refusé:`, admin.error);
+    return NextResponse.json({ success: false, error: admin.error }, { status: admin.status });
   }
 
   const startOfToday = new Date();
@@ -25,6 +27,8 @@ export async function GET(request: NextRequest) {
     prisma.contact.count({ where: { isDeleted: false, createdAt: { gte: startOfToday } } }),
   ]);
 
+  console.log(`[${timestamp}] GET /api/messages/statistics - Stats récupérées`);
+
   return NextResponse.json({
     success: true,
     data: {
@@ -35,4 +39,3 @@ export async function GET(request: NextRequest) {
     },
   });
 }
-

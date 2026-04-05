@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { MessageSquare, Mail, Send, Loader2 } from 'lucide-react'
-import { validateCreateMessageField, validateCreateMessage } from '../validators/messages'
-import type { ZodIssue } from 'zod'
-import { toast } from 'sonner'
+import { useState } from 'react';
+import { MessageSquare, Mail, Send, Loader2 } from 'lucide-react';
+import { validateCreateMessageField, validateCreateMessage } from '../validators/messages';
+import type { ZodIssue } from 'zod';
+import { toast } from 'sonner';
 
 type FormErrors = {
-  fullName?: string
-  company?: string
-  email?: string
-  service?: string
-  message?: string
-}
+  fullName?: string;
+  company?: string;
+  email?: string;
+  service?: string;
+  message?: string;
+};
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -21,125 +21,128 @@ export default function Contact() {
     email: '',
     service: '',
     message: '',
-  })
-  const [errors, setErrors] = useState<FormErrors>({})
-  const [touched, setTouched] = useState<Record<string, boolean>>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  const [serverErrors, setServerErrors] = useState<Record<string, string[]>>({})
+  });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [serverErrors, setServerErrors] = useState<Record<string, string[]>>({});
 
   const validateField = (field: keyof typeof formData, value: string) => {
-    const error = validateCreateMessageField(field, value)
-    setErrors(prev => ({ ...prev, [field]: error }))
-    return !error
-  }
+    const error = validateCreateMessageField(field, value);
+    setErrors((prev) => ({ ...prev, [field]: error }));
+    return !error;
+  };
 
   const handleChange = (field: keyof typeof formData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
-    setServerErrors({}) // Clear server errors on change
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    setServerErrors({}); // Clear server errors on change
     if (touched[field]) {
-      validateField(field, value)
+      validateField(field, value);
     }
-  }
+  };
 
   const handleBlur = (field: keyof typeof formData) => {
-    setTouched(prev => ({ ...prev, [field]: true }))
-    validateField(field, formData[field])
-  }
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    validateField(field, formData[field]);
+  };
 
   const validateForm = () => {
     // Mark all fields as touched
-    const allTouched = Object.keys(formData).reduce((acc, key) => {
-      acc[key] = true
-      return acc
-    }, {} as Record<string, boolean>)
-    setTouched(allTouched)
+    const allTouched = Object.keys(formData).reduce(
+      (acc, key) => {
+        acc[key] = true;
+        return acc;
+      },
+      {} as Record<string, boolean>,
+    );
+    setTouched(allTouched);
 
     // Validate all fields
-    const result = validateCreateMessage(formData)
-    
+    const result = validateCreateMessage(formData);
+
     if (!result.success) {
-      const newErrors: FormErrors = {}
+      const newErrors: FormErrors = {};
       result.error.issues.forEach((issue: ZodIssue) => {
-        const field = issue.path[0] as keyof FormErrors
-        newErrors[field] = issue.message
-      })
-      setErrors(newErrors)
-      return false
+        const field = issue.path[0] as keyof FormErrors;
+        newErrors[field] = issue.message;
+      });
+      setErrors(newErrors);
+      return false;
     }
-    
-    setErrors({})
-    return true
-  }
+
+    setErrors({});
+    return true;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
+    e.preventDefault();
+
     if (!validateForm()) {
-      return
+      return;
     }
-    
-    setIsSubmitting(true)
-    setSubmitStatus('idle')
-    setServerErrors({})
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setServerErrors({});
 
     try {
       const response = await fetch('/api/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok && data.success) {
-        setSubmitStatus('success')
+        setSubmitStatus('success');
         toast.success('Message reçu', {
           description: data?.emailNotificationSent
             ? 'Votre demande a bien été transmise à notre équipe. Nous vous recontactons rapidement.'
             : 'Votre demande a bien été enregistrée. Nous vous recontactons rapidement.',
-        })
+        });
         setFormData({
           fullName: '',
           company: '',
           email: '',
           service: '',
           message: '',
-        })
-        setErrors({})
-        setTouched({})
-        setServerErrors({})
+        });
+        setErrors({});
+        setTouched({});
+        setServerErrors({});
       } else if (data.errors) {
         // Handle validation errors from server
-        setServerErrors(data.errors)
-        setSubmitStatus('error')
+        setServerErrors(data.errors);
+        setSubmitStatus('error');
         toast.error('Veuillez corriger le formulaire', {
           description: 'Certains champs sont invalides.',
-        })
-        
+        });
+
         // Mark fields with server errors as touched
-        const serverErrorFields = Object.keys(data.errors)
-        const newTouched = { ...touched }
-        serverErrorFields.forEach(field => {
-          newTouched[field] = true
-        })
-        setTouched(newTouched)
+        const serverErrorFields = Object.keys(data.errors);
+        const newTouched = { ...touched };
+        serverErrorFields.forEach((field) => {
+          newTouched[field] = true;
+        });
+        setTouched(newTouched);
       } else {
-        setSubmitStatus('error')
+        setSubmitStatus('error');
         toast.error('Erreur lors de l’envoi', {
           description: data?.error || 'Veuillez réessayer.',
-        })
+        });
       }
     } catch {
-      setSubmitStatus('error')
+      setSubmitStatus('error');
       toast.error('Erreur de connexion', {
         description: 'Veuillez réessayer.',
-      })
+      });
     } finally {
-      setIsSubmitting(false)
-      setTimeout(() => setSubmitStatus('idle'), 5000)
+      setIsSubmitting(false);
+      setTimeout(() => setSubmitStatus('idle'), 5000);
     }
-  }
+  };
 
   const contactMethods = [
     {
@@ -160,17 +163,17 @@ export default function Contact() {
       description: 'CyberShield Africa Officiel',
       color: 'text-blue-400',
     },
-  ]
+  ];
 
   const getFieldError = (field: keyof FormErrors): string | null => {
     if (serverErrors[field] && serverErrors[field].length > 0) {
-      return serverErrors[field][0]
+      return serverErrors[field][0];
     }
     if (errors[field] && touched[field]) {
-      return errors[field] || null
+      return errors[field] || null;
     }
-    return null
-  }
+    return null;
+  };
 
   return (
     <section id="contact" className="py-20 bg-slate-900 text-white page-break">
@@ -182,7 +185,8 @@ export default function Contact() {
               Contactez-nous
             </h2>
             <p className="text-slate-400 mb-8 leading-relaxed">
-              Prêt à renforcer votre posture de sécurité ? Notre équipe locale au Maroc est prête à intervenir.
+              Prêt à renforcer votre posture de sécurité ? Notre équipe locale au Maroc est prête à
+              intervenir.
             </p>
 
             <div className="space-y-6">
@@ -247,7 +251,7 @@ export default function Contact() {
                   )}
                 </div>
               </div>
-              
+
               <div>
                 <input
                   type="email"
@@ -268,7 +272,7 @@ export default function Contact() {
                   <p className="text-red-500 text-xs mt-1">{getFieldError('email')}</p>
                 )}
               </div>
-              
+
               <div>
                 <select
                   id="service"
@@ -291,7 +295,7 @@ export default function Contact() {
                   <p className="text-red-500 text-xs mt-1">{getFieldError('service')}</p>
                 )}
               </div>
-              
+
               <div>
                 <textarea
                   id="message"
@@ -311,11 +315,11 @@ export default function Contact() {
                   <p className="text-red-500 text-xs mt-1">{getFieldError('message')}</p>
                 )}
               </div>
-              
+
               {serverErrors.general && (
                 <p className="text-red-500 text-sm text-center">{serverErrors.general[0]}</p>
               )}
-              
+
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -333,17 +337,19 @@ export default function Contact() {
                   </>
                 )}
               </button>
-              
+
               {submitStatus === 'success' && (
                 <p className="text-emerald-600 text-sm text-center">Message envoyé avec succès !</p>
               )}
               {submitStatus === 'error' && !serverErrors.general && (
-                <p className="text-red-600 text-sm text-center">Erreur lors de l&apos;envoi. Veuillez réessayer.</p>
+                <p className="text-red-600 text-sm text-center">
+                  Erreur lors de l&apos;envoi. Veuillez réessayer.
+                </p>
               )}
             </form>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

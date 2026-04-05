@@ -8,22 +8,29 @@ export const runtime = 'nodejs';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const timestamp = new Date().toISOString();
+
+  console.log(`[${timestamp}] DELETE /api/messages/[id]/delete - Requête reçue`);
+
   const admin = await requireAdmin(request);
   if (!admin.authorized) {
-    return NextResponse.json(
-      { success: false, error: admin.error },
-      { status: admin.status }
-    );
+    console.error(`[${timestamp}] DELETE /api/messages/[id]/delete - Accès refusé`);
+    return NextResponse.json({ success: false, error: admin.error }, { status: admin.status });
   }
 
   const { id } = await params;
   const { searchParams } = new URL(request.url);
   const permanent = searchParams.get('permanent') === 'true';
 
+  console.log(
+    `[${timestamp}] DELETE /api/messages/[id]/delete - Suppression ${permanent ? 'définitive' : 'logique'}`,
+  );
+
   if (permanent) {
     await prisma.contact.delete({ where: { id } });
+    console.log(`[${timestamp}] DELETE /api/messages/[id]/delete - Suppression définitive réussie`);
     return new NextResponse(null, { status: 204 });
   }
 
@@ -35,6 +42,6 @@ export async function DELETE(
     },
   });
 
+  console.log(`[${timestamp}] DELETE /api/messages/[id]/delete - Suppression logique réussie`);
   return NextResponse.json({ success: true, data: updated });
 }
-

@@ -3,14 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-  Menu, 
-  X, 
-  MessageSquare, 
-  Shield,
-  User,
-  LogOut
-} from 'lucide-react';
+import { Menu, X, MessageSquare, Shield, User, LogOut } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 
 interface SidebarItem {
@@ -68,7 +61,7 @@ export default function AdminSidebar() {
         {sidebarItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.href);
-          
+
           return (
             <Link
               key={item.href}
@@ -102,7 +95,7 @@ export default function AdminSidebar() {
             </span>
           </div>
         </div>
-        
+
         <button
           onClick={handleLogout}
           className="w-full flex items-center gap-2 px-2 py-2 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-md transition-all duration-200"
@@ -128,17 +121,19 @@ export default function AdminSidebar() {
 
       {/* Mobile Sidebar Overlay */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
 
       {/* Mobile Sidebar */}
-      <div className={`
+      <div
+        className={`
         lg:hidden fixed inset-y-0 left-0 z-50 w-56 transform transition-transform duration-300 ease-in-out
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
+      `}
+      >
         <SidebarContent />
       </div>
 

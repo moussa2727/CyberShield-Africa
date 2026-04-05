@@ -51,7 +51,7 @@ export function generateTokens(user: any, rememberMe: boolean = false) {
       type: 'access',
     } as TokenPayload,
     JWT_SECRET,
-    { expiresIn: accessExpiresIn }
+    { expiresIn: accessExpiresIn },
   );
 
   const refreshToken = jwt.sign(
@@ -62,7 +62,7 @@ export function generateTokens(user: any, rememberMe: boolean = false) {
       type: 'refresh',
     } as TokenPayload,
     JWT_REFRESH_SECRET,
-    { expiresIn: refreshExpiresIn }
+    { expiresIn: refreshExpiresIn },
   );
 
   return { accessToken, refreshToken };
@@ -72,7 +72,7 @@ export function setAuthCookies(
   response: NextResponse,
   accessToken: string,
   refreshToken: string,
-  rememberMe: boolean = false
+  rememberMe: boolean = false,
 ) {
   const maxAgeAccess = rememberMe ? 7 * 24 * 60 * 60 : 24 * 60 * 60; // 7 jours ou 1 jour
   const maxAgeRefresh = rememberMe ? 30 * 24 * 60 * 60 : 7 * 24 * 60 * 60; // 30 jours ou 7 jours
@@ -108,7 +108,7 @@ export function clearAuthCookies(response: NextResponse) {
 export async function verifyAccessToken(token: string) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as TokenPayload;
-    
+
     if (decoded.type !== 'access') {
       return null;
     }
@@ -123,7 +123,7 @@ export async function verifyAccessToken(token: string) {
         role: true,
         isActive: true,
         createdAt: true,
-      }
+      },
     });
 
     if (!user || !user.isActive) {
@@ -139,7 +139,7 @@ export async function verifyAccessToken(token: string) {
 export function verifyRefreshToken(token: string) {
   try {
     const decoded = jwt.verify(token, JWT_REFRESH_SECRET) as TokenPayload;
-    
+
     if (decoded.type !== 'refresh') {
       return null;
     }
@@ -154,19 +154,19 @@ export function verifyRefreshToken(token: string) {
 export async function getAuthenticatedUser(request: Request) {
   // Essayer de récupérer le token des cookies d'abord
   let token: string | undefined;
-  
+
   // Pour Next.js, les cookies sont dans l'URL ou dans les headers
   const cookieHeader = request.headers.get('cookie');
   if (cookieHeader) {
     const cookies = Object.fromEntries(
-      cookieHeader.split('; ').map(cookie => {
+      cookieHeader.split('; ').map((cookie) => {
         const [name, ...rest] = cookie.split('=');
         return [name, rest.join('=')];
-      })
+      }),
     );
     token = cookies['access_token'];
   }
-  
+
   // Si pas de token dans les cookies, essayer le header Authorization
   if (!token) {
     const authHeader = request.headers.get('Authorization');
@@ -174,11 +174,11 @@ export async function getAuthenticatedUser(request: Request) {
       token = authHeader.substring(7);
     }
   }
-  
+
   if (!token) {
     return null;
   }
-  
+
   return await verifyAccessToken(token);
 }
 
@@ -191,7 +191,7 @@ export async function isAdmin(request: Request) {
 // Middleware de protection pour les routes admin
 export async function requireAdmin(request: Request) {
   const user = await getAuthenticatedUser(request);
-  
+
   if (!user) {
     return {
       authorized: false,
@@ -199,7 +199,7 @@ export async function requireAdmin(request: Request) {
       status: 401,
     };
   }
-  
+
   if (user.role !== 'ADMIN') {
     return {
       authorized: false,
@@ -207,7 +207,7 @@ export async function requireAdmin(request: Request) {
       status: 403,
     };
   }
-  
+
   return {
     authorized: true,
     user,
@@ -218,12 +218,12 @@ export async function requireAdmin(request: Request) {
 export function generateToken(payload: any, options?: { expiresIn?: string }) {
   const secret = payload.type === 'password_reset' ? JWT_PASSWORD_RESET_SECRET : JWT_SECRET;
   const expiresIn = options?.expiresIn || '1h';
-  
+
   // Typage explicite pour éviter les erreurs TypeScript
   const signOptions: jwt.SignOptions = {
-    expiresIn: expiresIn as jwt.SignOptions['expiresIn']
+    expiresIn: expiresIn as jwt.SignOptions['expiresIn'],
   };
-  
+
   return jwt.sign(payload, secret, signOptions);
 }
 

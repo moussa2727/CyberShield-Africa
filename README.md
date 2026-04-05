@@ -37,7 +37,7 @@ DATABASE_URL=postgresql://username:password@host:port/database?sslmode=require
 
 # JWT Secrets (générez des clés sécurisées)
 JWT_SECRET=votre-secret-jwt-32-caracteres-minimum
-JWT_REFRESH_SECRET=votre-secret-refresh-32-caracteres-minimum  
+JWT_REFRESH_SECRET=votre-secret-refresh-32-caracteres-minimum
 JWT_PASSWORD_RESET_SECRET=votre-secret-reset-32-caracteres-minimum
 
 # Email Gmail OAuth2
@@ -66,6 +66,7 @@ ENABLE_BULK_OPERATIONS=true
 #### 5. Déploiement automatique
 
 Vercel va automatiquement :
+
 - Installer les dépendances avec `pnpm install`
 - Générer le client Prisma avec `prisma generate`
 - Builder l'application avec `next build`
@@ -149,6 +150,7 @@ En cas de problème :
 ### 📞 Support
 
 Pour toute question sur le déploiement :
+
 - Documentation Vercel : https://vercel.com/docs
 - Support Vercel : https://vercel.com/support
 - Issues GitHub : https://github.com/your-repo/issues

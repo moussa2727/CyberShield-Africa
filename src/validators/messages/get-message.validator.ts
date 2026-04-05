@@ -4,9 +4,7 @@ import { z } from 'zod';
 // GET MESSAGE VALIDATOR (admin)
 // ============================================
 export const getMessageSchema = z.object({
-  id: z
-    .string()
-    .min(1, 'ID de message invalide'),
+  id: z.string().min(1, 'ID de message invalide'),
 });
 
 export type GetMessageData = z.infer<typeof getMessageSchema>;
@@ -28,7 +26,6 @@ export const validateGetStatistics = (data: unknown) => {
   return getStatisticsSchema.safeParse(data);
 };
 
-
 // ============================================
 // GET UNREAD COUNT VALIDATOR (admin)
 // ============================================
@@ -41,7 +38,6 @@ export type GetUnreadCountData = z.infer<typeof getUnreadCountSchema>;
 export const validateGetUnreadCount = (data: unknown) => {
   return getUnreadCountSchema.safeParse(data);
 };
-
 
 // ============================================
 // UNREAD COUNT VALIDATOR (admin)

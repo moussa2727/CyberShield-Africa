@@ -15,12 +15,6 @@ export const validateMarkAsRead = (data: unknown) => {
   return markAsReadSchema.safeParse(data);
 };
 
-
-
-
-
-
-
 // ============================================
 // MARK ALL AS READ VALIDATOR (admin)
 // ============================================

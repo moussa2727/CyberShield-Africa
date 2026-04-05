@@ -24,19 +24,13 @@ export async function PATCH(request: NextRequest) {
     const token = await getTokenFromRequest(request);
 
     if (!token) {
-      return NextResponse.json(
-        { success: false, error: 'Non authentifié' },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, error: 'Non authentifié' }, { status: 401 });
     }
 
     const user = await verifyAccessToken(token);
 
     if (!user) {
-      return NextResponse.json(
-        { success: false, error: 'Token invalide' },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, error: 'Token invalide' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -49,7 +43,7 @@ export async function PATCH(request: NextRequest) {
           error: 'Validation error',
           errors: validation.error.flatten().fieldErrors,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -63,7 +57,7 @@ export async function PATCH(request: NextRequest) {
     if (!dbUser) {
       return NextResponse.json(
         { success: false, error: 'Utilisateur non trouvé' },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -71,7 +65,7 @@ export async function PATCH(request: NextRequest) {
     if (!isCurrentCorrect) {
       return NextResponse.json(
         { success: false, error: 'Le mot de passe actuel est incorrect' },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -86,12 +80,11 @@ export async function PATCH(request: NextRequest) {
       success: true,
       message: 'Mot de passe mis à jour avec succès',
     });
-
   } catch (error) {
     console.error('Me/password PATCH error:', error);
     return NextResponse.json(
       { success: false, error: 'Erreur lors de la mise à jour du mot de passe' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

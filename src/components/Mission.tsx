@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { CheckCircle } from "lucide-react";
+import { CheckCircle } from 'lucide-react';
 
 export default function Mission() {
   const features = [
-    'Sensibilisation aux attaques d\'ingénierie sociale',
+    "Sensibilisation aux attaques d'ingénierie sociale",
     'Rapports clairs, exploitables et pédagogiques',
     'Encadrement académique garantissant la rigueur technique',
-  ]
+  ];
 
   return (
     <section className="py-20 mx-auto px-6 border-b">
@@ -17,8 +17,8 @@ export default function Mission() {
             Notre Mission
           </h2>
           <p className="text-slate-600 leading-relaxed mb-6">
-            CyberShield Africa protège les entreprises africaines contre les menaces numériques en rendant les audits 
-            et tests de sécurité accessibles financièrement.
+            CyberShield Africa protège les entreprises africaines contre les menaces numériques en
+            rendant les audits et tests de sécurité accessibles financièrement.
           </p>
           <ul className="space-y-4">
             {features.map((feature, index) => (
@@ -33,7 +33,8 @@ export default function Mission() {
         <div className="bg-slate-900 p-8 rounded-2xl text-white shadow-2xl border-l-8 border-orange-500 animate-slide-up">
           <h3 className="text-xl font-bold mb-4 italic">L&#39;opportunité du marché</h3>
           <p className="text-slate-400 text-sm leading-relaxed mb-4">
-            La digitalisation rapide au Maroc et en Afrique expose les PME à des risques de fuites de données et pertes financières.
+            La digitalisation rapide au Maroc et en Afrique expose les PME à des risques de fuites
+            de données et pertes financières.
           </p>
           <div className="grid grid-cols-2 gap-4 mt-6">
             <div className="bg-white/5 p-4 rounded-lg border border-white/10 text-center">
@@ -48,5 +49,5 @@ export default function Mission() {
         </div>
       </div>
     </section>
-  )
+  );
 }

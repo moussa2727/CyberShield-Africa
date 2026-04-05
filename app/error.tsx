@@ -1,20 +1,20 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
-import { Shield, RefreshCw, Home } from 'lucide-react'
-import Link from 'next/link'
+import { useEffect } from 'react';
+import { Shield, RefreshCw, Home } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Error({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error('Application error:', error)
-  }, [error])
+    console.error('Application error:', error);
+  }, [error]);
 
   return (
     <div className="min-h-screen bg-linear-to-br from-red-50 to-orange-50 flex items-center justify-center px-4">
@@ -32,13 +32,11 @@ export default function Error({
         </div>
 
         {/* Error Message */}
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Erreur Inattendue
-        </h1>
-        
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">Erreur Inattendue</h1>
+
         <p className="text-gray-600 mb-8 leading-relaxed">
-          Une erreur inattendue s&apos;est produite. 
-          Notre équipe a été notifiée et travaille à résoudre ce problème.
+          Une erreur inattendue s&apos;est produite. Notre équipe a été notifiée et travaille à
+          résoudre ce problème.
         </p>
 
         {/* Error Code Display */}
@@ -57,14 +55,14 @@ export default function Error({
 
         {/* Action Buttons */}
         <div className="space-y-3">
-          <button 
+          <button
             onClick={reset}
             className="w-full bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition flex items-center justify-center gap-2"
           >
             <RefreshCw className="w-4 h-4" />
             Réessayer
           </button>
-          
+
           <Link href="/" className="block">
             <button className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition flex items-center justify-center gap-2">
               <Home className="w-4 h-4" />
@@ -79,10 +77,16 @@ export default function Error({
             Le problème persiste ? Contactez notre support :
           </p>
           <div className="flex flex-col gap-2">
-            <Link href="mailto:support@cybershield-africa.ma" className="text-orange-600 hover:text-orange-700 text-sm transition">
+            <Link
+              href="mailto:support@cybershield-africa.ma"
+              className="text-orange-600 hover:text-orange-700 text-sm transition"
+            >
               → Support Technique
             </Link>
-            <Link href="/#contact" className="text-orange-600 hover:text-orange-700 text-sm transition">
+            <Link
+              href="/#contact"
+              className="text-orange-600 hover:text-orange-700 text-sm transition"
+            >
               → Nous Contacter
             </Link>
           </div>
@@ -95,5 +99,5 @@ export default function Error({
         </div>
       </div>
     </div>
-  )
+  );
 }

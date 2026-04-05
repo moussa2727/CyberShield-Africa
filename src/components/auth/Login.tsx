@@ -30,17 +30,17 @@ export default function Login() {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.email) {
       newErrors.email = 'Email requis';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email invalide';
     }
-    
+
     if (!formData.password) {
       newErrors.password = 'Mot de passe requis';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -48,11 +48,11 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     if (!validateForm()) return;
-    
+
     const result = await login(formData.email, formData.password, formData.rememberMe);
-    
+
     if (!result.success) {
       setError(result.error || 'Erreur de connexion');
     }
@@ -63,7 +63,10 @@ export default function Login() {
       <div className="max-w-md w-full">
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-r from-orange-500 to-orange-600 rounded-2xl mb-4">
+          <Link
+            href="/"
+            className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-r from-orange-500 to-orange-600 rounded-2xl mb-4"
+          >
             <Mail className="text-white" size={32} />
           </Link>
           <h1 className="text-3xl font-bold text-gray-800">Connexion</h1>
@@ -77,14 +80,15 @@ export default function Login() {
               {error}
             </div>
           )}
-          
+
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <Mail
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={18}
+                />
                 <input
                   type="email"
                   value={formData.email}
@@ -95,17 +99,16 @@ export default function Login() {
                   placeholder="admin@exemple.com"
                 />
               </div>
-              {errors.email && (
-                <p className="mt-1 text-xs text-red-500">{errors.email}</p>
-              )}
+              {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Mot de passe
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Mot de passe</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <Lock
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={18}
+                />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
@@ -123,9 +126,7 @@ export default function Login() {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
-              {errors.password && (
-                <p className="mt-1 text-xs text-red-500">{errors.password}</p>
-              )}
+              {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
             </div>
 
             <div className="flex items-center justify-between">
@@ -165,7 +166,10 @@ export default function Login() {
           <div className="mt-6 pt-6 border-t text-center">
             <p className="text-sm text-gray-600">
               Pas encore de compte ?{' '}
-              <Link href="/auth/register" className="text-orange-600 hover:text-orange-700 font-medium">
+              <Link
+                href="/auth/register"
+                className="text-orange-600 hover:text-orange-700 font-medium"
+              >
                 Créer un compte
               </Link>
             </p>

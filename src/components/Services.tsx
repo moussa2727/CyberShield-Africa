@@ -1,59 +1,60 @@
-'use client'
+'use client';
 
-import { 
-  Shield, 
-  AlertTriangle, 
-  Download, 
-  Wifi, 
-  ShieldCheck, 
+import {
+  Shield,
+  AlertTriangle,
+  Download,
+  Wifi,
+  ShieldCheck,
   GraduationCap,
   Globe,
-} from 'lucide-react'
+} from 'lucide-react';
 
 const services = [
   {
     icon: Shield,
     title: 'Périmètre ADF',
-    description: 'Les entreprises d\'épargne et de prêt en ligne bénéficient d\'une protection renforcée.',
+    description:
+      "Les entreprises d'épargne et de prêt en ligne bénéficient d'une protection renforcée.",
     stats: '1000+ sites',
-    color: 'green'
+    color: 'green',
   },
   {
     icon: AlertTriangle,
     title: 'Alarme & Clique',
     description: 'Détection et réponse instantanée aux menaces en temps réel.',
     stats: '1000+ sites',
-    color: 'orange'
+    color: 'orange',
   },
   {
     icon: Download,
     title: 'Téléchargement Sécurisé',
     description: 'Téléchargement rapide et efficace avec vérification antivirus.',
     stats: 'Sécurisé',
-    color: 'green'
+    color: 'green',
   },
   {
     icon: Wifi,
     title: 'Portes PING',
     description: 'Éviter les attaques sur votre site web avec une surveillance constante.',
     stats: '1000+ sites',
-    color: 'orange'
+    color: 'orange',
   },
   {
     icon: ShieldCheck,
     title: 'Audit de Sécurité',
     description: 'Réduire les risques de sécurité avec des audits approfondis.',
     stats: '1000+ sites',
-    color: 'green'
+    color: 'green',
   },
   {
     icon: GraduationCap,
     title: 'Formation & Sensibilisation',
     description: 'Informations sur les risques de sécurité pour vos équipes.',
     stats: '1000+ sites',
-    color: 'orange'
-  }
-]
+    color: 'orange',
+  },
+];
 
 export default function Services() {
   return (
@@ -74,15 +75,19 @@ export default function Services() {
               key={index}
               className="group bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-green-200"
             >
-              <div className={`w-14 h-14 rounded-lg flex items-center justify-center mb-5 ${
-                service.color === 'green' ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-500'
-              } group-hover:scale-110 transition-transform`}>
+              <div
+                className={`w-14 h-14 rounded-lg flex items-center justify-center mb-5 ${
+                  service.color === 'green'
+                    ? 'bg-green-100 text-green-600'
+                    : 'bg-orange-100 text-orange-500'
+                } group-hover:scale-110 transition-transform`}
+              >
                 <service.icon className="w-7 h-7" />
               </div>
-              
+
               <h3 className="text-xl font-bold mb-3">{service.title}</h3>
               <p className="text-gray-600 mb-4">{service.description}</p>
-              
+
               <div className="flex items-center gap-2 text-sm">
                 <Globe className="w-4 h-4 text-gray-400" />
                 <span className="text-gray-500">{service.stats}</span>
@@ -92,5 +97,5 @@ export default function Services() {
         </div>
       </div>
     </section>
-  )
+  );
 }

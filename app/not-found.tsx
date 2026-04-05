@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { Shield, ArrowLeft, Home } from 'lucide-react'
+import Link from 'next/link';
+import { Shield, ArrowLeft, Home } from 'lucide-react';
 
 export default function NotFound() {
   return (
@@ -20,16 +20,12 @@ export default function NotFound() {
         </div>
 
         {/* Error Message */}
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Page Non Trouvée
-        </h1>
-        
-        <p className="text-gray-600 mb-8 leading-relaxed">
-          Oops! La page que vous recherchez semble avoir disparu. 
-          Elle a peut-être été déplacée, supprimée ou n&apos;a jamais existé.
-        </p>
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">Page Non Trouvée</h1>
 
-       
+        <p className="text-gray-600 mb-8 leading-relaxed">
+          Oops! La page que vous recherchez semble avoir disparu. Elle a peut-être été déplacée,
+          supprimée ou n&apos;a jamais existé.
+        </p>
 
         {/* Action Buttons */}
         <div className="space-y-3">
@@ -39,8 +35,8 @@ export default function NotFound() {
               Retour à l&apos;Accueil
             </button>
           </Link>
-          
-          <button 
+
+          <button
             onClick={() => window.history.back()}
             className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition flex items-center justify-center gap-2"
           >
@@ -51,17 +47,20 @@ export default function NotFound() {
 
         {/* Help Section */}
         <div className="mt-8 pt-8 border-t border-gray-200">
-          <p className="text-sm text-gray-500 mb-4">
-            Vous cherchez quelque chose de spécifique ?
-          </p>
+          <p className="text-sm text-gray-500 mb-4">Vous cherchez quelque chose de spécifique ?</p>
           <div className="flex flex-col gap-2">
-            <Link href="/#services" className="text-green-600 hover:text-green-700 text-sm transition">
+            <Link
+              href="/#services"
+              className="text-green-600 hover:text-green-700 text-sm transition"
+            >
               → Nos Services
             </Link>
-            <Link href="/#contact" className="text-green-600 hover:text-green-700 text-sm transition">
+            <Link
+              href="/#contact"
+              className="text-green-600 hover:text-green-700 text-sm transition"
+            >
               → Nous Contacter
             </Link>
-           
           </div>
         </div>
 
@@ -72,5 +71,5 @@ export default function NotFound() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -12,7 +12,7 @@ export default function ForgotPassword() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email.trim()) {
       toast.error('Erreur', {
         description: 'Veuillez entrer votre adresse email',
@@ -22,7 +22,7 @@ export default function ForgotPassword() {
 
     try {
       setLoading(true);
-      
+
       const response = await fetch('/api/auth/forgot-password', {
         method: 'POST',
         headers: {
@@ -36,7 +36,8 @@ export default function ForgotPassword() {
       if (result.success) {
         setSubmitted(true);
         toast.success('Email envoyé', {
-          description: 'Si un compte existe avec cet email, vous recevrez un lien de réinitialisation',
+          description:
+            'Si un compte existe avec cet email, vous recevrez un lien de réinitialisation',
         });
       } else {
         toast.error('Erreur', {
@@ -46,7 +47,7 @@ export default function ForgotPassword() {
     } catch (error) {
       console.error('Error:', error);
       toast.error('Erreur', {
-        description: 'Une erreur est survenue lors de l\'envoi de l\'email',
+        description: "Une erreur est survenue lors de l'envoi de l'email",
       });
     } finally {
       setLoading(false);
@@ -58,18 +59,19 @@ export default function ForgotPassword() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
-            <Link href="/" className="mx-auto h-12 w-12 bg-green-100 rounded-full flex items-center justify-center">
+            <Link
+              href="/"
+              className="mx-auto h-12 w-12 bg-green-100 rounded-full flex items-center justify-center"
+            >
               <Mail className="h-6 w-6 text-green-600" />
             </Link>
-            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-              Email envoyé
-            </h2>
+            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Email envoyé</h2>
             <p className="mt-2 text-sm text-gray-600">
-              Si un compte existe avec l'adresse <span className="font-medium">{email}</span>, 
-              vous recevrez un email avec les instructions pour réinitialiser votre mot de passe.
+              Si un compte existe avec l'adresse <span className="font-medium">{email}</span>, vous
+              recevrez un email avec les instructions pour réinitialiser votre mot de passe.
             </p>
           </div>
-          
+
           <div className="mt-6">
             <Link
               href="/auth/login"
@@ -95,20 +97,19 @@ export default function ForgotPassword() {
             <ArrowLeft size={16} />
             Retour
           </Link>
-          
+
           <div className="mt-6 text-center">
             <div className="mx-auto h-12 w-12 bg-orange-100 rounded-full flex items-center justify-center">
               <Mail className="h-6 w-6 text-orange-600" />
             </div>
-            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-              Mot de passe oublié
-            </h2>
+            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Mot de passe oublié</h2>
             <p className="mt-2 text-sm text-gray-600">
-              Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe
+              Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot
+              de passe
             </p>
           </div>
         </div>
-        
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -150,10 +151,7 @@ export default function ForgotPassword() {
           </div>
 
           <div className="text-center">
-            <Link
-              href="/auth/login"
-              className="text-sm text-orange-600 hover:text-orange-500"
-            >
+            <Link href="/auth/login" className="text-sm text-orange-600 hover:text-orange-500">
               Retour à la connexion
             </Link>
           </div>

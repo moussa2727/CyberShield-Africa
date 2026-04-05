@@ -16,8 +16,18 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   error: string | null;
-  login: (email: string, password: string, rememberMe?: boolean) => Promise<{ success: boolean; error?: string }>;
-  register: (firstName: string, lastName: string, email: string, password: string, confirmPassword: string) => Promise<{ success: boolean; error?: string }>;
+  login: (
+    email: string,
+    password: string,
+    rememberMe?: boolean,
+  ) => Promise<{ success: boolean; error?: string }>;
+  register: (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    confirmPassword: string,
+  ) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   refreshToken: () => Promise<boolean>;
   checkAuth: () => Promise<boolean>;
@@ -64,7 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       // Essayer de récupérer le token du localStorage d'abord
       let token = getLocalStorageToken();
-      
+
       if (!token) {
         // Si pas de token localStorage et aucun indice de session, ne pas appeler /me
         if (!hasSessionFlagCookie()) {
@@ -77,7 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           credentials: 'include',
         });
         const data = await response.json();
-        
+
         if (data.success && data.user) {
           setUser(data.user);
           return true;
@@ -88,12 +98,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Si on a un token localStorage, l'utiliser
       const response = await fetch('/api/auth/me', {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         credentials: 'include',
       });
       const data = await response.json();
-      
+
       if (data.success && data.user) {
         setUser(data.user);
         return true;
@@ -117,7 +127,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const refreshToken = useCallback(async (): Promise<boolean> => {
     try {
       const refreshTokenStorage = localStorage.getItem('refresh_token');
-      
+
       const response = await fetch('/api/auth/refresh', {
         method: 'POST',
         headers: {
@@ -126,9 +136,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         body: JSON.stringify({ refreshToken: refreshTokenStorage }),
         credentials: 'include',
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success && data.accessToken) {
         setLocalStorageToken(data.accessToken);
         if (data.user) {
@@ -136,7 +146,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
         return true;
       }
-      
+
       return false;
     } catch (error) {
       console.error('Refresh token error:', error);
@@ -145,97 +155,103 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Connexion
-  const login = useCallback(async (
-    email: string,
-    password: string,
-    rememberMe: boolean = false
-  ): Promise<{ success: boolean; error?: string }> => {
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password, rememberMe }),
-        credentials: 'include',
-      });
-      
-      const data = await response.json();
-      
-      if (data.success && data.user) {
-        setUser(data.user);
-        if (data.accessToken) {
-          setLocalStorageToken(data.accessToken);
+  const login = useCallback(
+    async (
+      email: string,
+      password: string,
+      rememberMe: boolean = false,
+    ): Promise<{ success: boolean; error?: string }> => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password, rememberMe }),
+          credentials: 'include',
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.user) {
+          setUser(data.user);
+          if (data.accessToken) {
+            setLocalStorageToken(data.accessToken);
+          }
+          return { success: true };
+        } else {
+          setError(data.error || 'Erreur de connexion');
+          return { success: false, error: data.error };
         }
-        return { success: true };
-      } else {
-        setError(data.error || 'Erreur de connexion');
-        return { success: false, error: data.error };
+      } catch (error) {
+        const errorMessage = 'Erreur de connexion au serveur';
+        setError(errorMessage);
+        return { success: false, error: errorMessage };
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      const errorMessage = 'Erreur de connexion au serveur';
-      setError(errorMessage);
-      return { success: false, error: errorMessage };
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    },
+    [],
+  );
 
   // Inscription
-  const register = useCallback(async (
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    confirmPassword: string
-  ): Promise<{ success: boolean; error?: string }> => {
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ firstName, lastName, email, password, confirmPassword }),
-        credentials: 'include',
-      });
-      
-      const data = await response.json();
-      
-      if (data.success && data.user) {
-        setUser(data.user);
-        if (data.accessToken) {
-          setLocalStorageToken(data.accessToken);
+  const register = useCallback(
+    async (
+      firstName: string,
+      lastName: string,
+      email: string,
+      password: string,
+      confirmPassword: string,
+    ): Promise<{ success: boolean; error?: string }> => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ firstName, lastName, email, password, confirmPassword }),
+          credentials: 'include',
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.user) {
+          setUser(data.user);
+          if (data.accessToken) {
+            setLocalStorageToken(data.accessToken);
+          }
+          return { success: true };
+        } else {
+          setError(data.error || "Erreur d'inscription");
+          return { success: false, error: data.error };
         }
-        return { success: true };
-      } else {
-        setError(data.error || 'Erreur d\'inscription');
-        return { success: false, error: data.error };
+      } catch (error) {
+        const errorMessage = 'Erreur de connexion au serveur';
+        setError(errorMessage);
+        return { success: false, error: errorMessage };
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      const errorMessage = 'Erreur de connexion au serveur';
-      setError(errorMessage);
-      return { success: false, error: errorMessage };
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    },
+    [],
+  );
 
   // Déconnexion
   const logout = useCallback(async () => {
     setIsLoading(true);
-    
+
     try {
       await fetch('/api/auth/logout', {
         method: 'POST',
         credentials: 'include',
       });
-      
+
       removeLocalStorageToken();
       setUser(null);
       router.push('/auth/login');
@@ -260,7 +276,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await checkAuth();
       setIsLoading(false);
     };
-    
+
     initAuth();
   }, [checkAuth]);
 
@@ -276,11 +292,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     updateUser,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export const useAuth = () => {

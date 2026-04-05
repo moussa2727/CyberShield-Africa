@@ -58,18 +58,26 @@ export const emailTemplates = {
               <div class="label">Email:</div>
               <div class="value">${data.email}</div>
             </div>
-            ${data.company ? `
+            ${
+              data.company
+                ? `
             <div class="field">
               <div class="label">Entreprise:</div>
               <div class="value">${data.company}</div>
             </div>
-            ` : ''}
-            ${data.service ? `
+            `
+                : ''
+            }
+            ${
+              data.service
+                ? `
             <div class="field">
               <div class="label">Service intéressé:</div>
               <div class="value">${data.service}</div>
             </div>
-            ` : ''}
+            `
+                : ''
+            }
             <div class="field">
               <div class="label">Message:</div>
               <div class="message">${data.message.replace(/\n/g, '<br>')}</div>
@@ -98,15 +106,11 @@ export const emailTemplates = {
       
       ---
       Envoyé le: ${new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' })}
-    `
+    `,
   }),
 
   // Confirmation à l'utilisateur que le message a été reçu
-  contactConfirmation: (data: {
-    fullName: string;
-    email: string;
-    service?: string;
-  }) => ({
+  contactConfirmation: (data: { fullName: string; email: string; service?: string }) => ({
     subject: 'Votre message a bien été reçu - CyberShield Africa',
     html: `
       <!DOCTYPE html>
@@ -182,7 +186,7 @@ export const emailTemplates = {
       ---
       CyberShield Africa - Votre partenaire de confiance en cybersécurité
       Envoyé le: ${new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' })}
-    `
+    `,
   }),
 
   // Notification à l'utilisateur lorsque l'admin a répondu
@@ -264,15 +268,12 @@ export const emailTemplates = {
       ---
       CyberShield Africa - Votre partenaire de confiance en cybersécurité
       Envoyé le: ${new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' })}
-    `
-  })
+    `,
+  }),
 };
 
 // Template pour la réinitialisation du mot de passe
-export const passwordResetTemplate = (data: {
-  firstName: string;
-  resetToken: string;
-}) => ({
+export const passwordResetTemplate = (data: { firstName: string; resetToken: string }) => ({
   subject: 'Réinitialisation de votre mot de passe - CyberShield Africa',
   html: `
     <!DOCTYPE html>
@@ -356,7 +357,7 @@ export const passwordResetTemplate = (data: {
     ---
     CyberShield Africa - Votre partenaire de confiance en cybersécurité
     Envoyé le: ${new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' })}
-  `
+  `,
 });
 
 function getMailConfig() {
@@ -412,30 +413,32 @@ async function getTransport() {
 // Fonction principale d'envoi d'email
 async function sendEmail(options: EmailOptions): Promise<{ success: boolean; error?: string }> {
   try {
-    const info = await nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: env.EMAIL_USER,
-        pass: env.GMAIL_CLIENT_SECRET,
-      },
-    }).sendMail({
-      from: options.from || `"CyberShield Africa" <${env.EMAIL_USER}>`,
-      to: options.to,
-      subject: options.subject,
-      html: options.html,
-      text: options.text,
-      replyTo: options.replyTo,
-    });
+    const info = await nodemailer
+      .createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+          user: env.EMAIL_USER,
+          pass: env.GMAIL_CLIENT_SECRET,
+        },
+      })
+      .sendMail({
+        from: options.from || `"CyberShield Africa" <${env.EMAIL_USER}>`,
+        to: options.to,
+        subject: options.subject,
+        html: options.html,
+        text: options.text,
+        replyTo: options.replyTo,
+      });
 
     console.log('Email sent successfully:', info.messageId);
     return { success: true };
   } catch (error) {
     console.error('Error sending email:', error);
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : 'Unknown error occurred' 
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error occurred',
     };
   }
 }
@@ -457,16 +460,12 @@ export const emailService = {
     const template = emailTemplates.newContactNotification(data);
     return await sendEmail({
       to: cfg.emailUser, // Envoyer à l'admin
-      ...template
+      ...template,
     });
   },
 
   // Confirmer la réception à l'utilisateur
-  async confirmReceipt(data: {
-    fullName: string;
-    email: string;
-    service?: string;
-  }) {
+  async confirmReceipt(data: { fullName: string; email: string; service?: string }) {
     const cfg = getMailConfig();
     if (!cfg.enabled) return { success: false, error: 'Email notifications disabled' };
     if (!cfg.emailUser) return { success: false, error: 'Email configuration missing' };
@@ -474,16 +473,12 @@ export const emailService = {
     const template = emailTemplates.contactConfirmation(data);
     return await sendEmail({
       to: data.email,
-      ...template
+      ...template,
     });
   },
 
   // Notifier de la réponse de l'admin
-  async notifyAdminResponse(data: {
-    fullName: string;
-    email: string;
-    adminResponse: string;
-  }) {
+  async notifyAdminResponse(data: { fullName: string; email: string; adminResponse: string }) {
     const cfg = getMailConfig();
     if (!cfg.enabled) return { success: false, error: 'Email notifications disabled' };
     if (!cfg.emailUser) return { success: false, error: 'Email configuration missing' };
@@ -491,16 +486,12 @@ export const emailService = {
     const template = emailTemplates.adminResponseNotification(data);
     return await sendEmail({
       to: data.email,
-      ...template
+      ...template,
     });
   },
 
   // Envoyer l'email de réinitialisation de mot de passe
-  async sendPasswordReset(data: {
-    firstName: string;
-    to: string;
-    resetToken: string;
-  }) {
+  async sendPasswordReset(data: { firstName: string; to: string; resetToken: string }) {
     const cfg = getMailConfig();
     if (!cfg.enabled) return { success: false, error: 'Email notifications disabled' };
     if (!cfg.emailUser) return { success: false, error: 'Email configuration missing' };
@@ -508,9 +499,9 @@ export const emailService = {
     const template = passwordResetTemplate(data);
     return await sendEmail({
       to: data.to,
-      ...template
+      ...template,
     });
-  }
+  },
 };
 
 // Garder les anciennes fonctions pour compatibilité
@@ -526,7 +517,7 @@ export async function notifyAdminNewContactMessage(input: {
     email: input.senderEmail,
     company: input.company || undefined,
     service: input.service || undefined,
-    message: input.message
+    message: input.message,
   });
 }
 
@@ -538,7 +529,7 @@ export async function notifySenderAdminReply(input: {
   return emailService.notifyAdminResponse({
     fullName: input.senderName || 'Client',
     email: input.to,
-    adminResponse: input.adminResponse
+    adminResponse: input.adminResponse,
   });
 }
 
@@ -551,7 +542,6 @@ export async function sendPasswordResetEmail(input: {
   return emailService.sendPasswordReset({
     firstName: input.firstName,
     to: input.to,
-    resetToken: input.resetToken
+    resetToken: input.resetToken,
   });
 }
-

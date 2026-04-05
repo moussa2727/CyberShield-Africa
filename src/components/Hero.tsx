@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { Shield } from 'lucide-react'
+import { Shield } from 'lucide-react';
 
 export default function Hero() {
   return (
@@ -11,18 +11,17 @@ export default function Hero() {
             <Shield className="w-4 h-4 text-green-600" />
             <span className="text-sm font-semibold text-green-600">Sécurité Numérique PME</span>
           </div>
-          
+
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Sécurisez la{' '}
-            <span className="text-green-600">Transformation Numérique</span>{' '}
-            de Votre PME en Afrique
+            Sécurisez la <span className="text-green-600">Transformation Numérique</span> de Votre
+            PME en Afrique
           </h1>
-          
+
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Les entreprises d&apos;épargne et de prêt en ligne sont des acteurs clés dans le secteur financier. 
-            Protégez vos données et vos transactions avec nos solutions adaptées.
+            Les entreprises d&apos;épargne et de prêt en ligne sont des acteurs clés dans le secteur
+            financier. Protégez vos données et vos transactions avec nos solutions adaptées.
           </p>
-          
+
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="#contact"
@@ -40,5 +39,5 @@ export default function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -11,29 +11,26 @@ export async function POST(request: NextRequest) {
   try {
     // Récupérer le refresh token (cookie ou body)
     let refreshToken = request.cookies.get('refresh_token')?.value;
-    
+
     if (!refreshToken) {
       const body = await request.json().catch(() => ({}));
       refreshToken = body.refreshToken;
     }
 
     if (!refreshToken) {
-      return NextResponse.json(
-        { success: false, error: 'Refresh token requis' },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, error: 'Refresh token requis' }, { status: 401 });
     }
 
     // Vérifier le refresh token dans la base de données
     const storedToken = await prisma.refreshToken.findUnique({
       where: { token: refreshToken },
-      include: { user: true }
+      include: { user: true },
     });
 
     if (!storedToken || storedToken.expiresAt < new Date()) {
       return NextResponse.json(
         { success: false, error: 'Refresh token invalide ou expiré' },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -44,25 +41,19 @@ export async function POST(request: NextRequest) {
     } catch (error) {
       return NextResponse.json(
         { success: false, error: 'Refresh token invalide' },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
     // Vérifier que l'utilisateur correspond
     if (decoded.userId !== storedToken.userId) {
-      return NextResponse.json(
-        { success: false, error: 'Token invalide' },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, error: 'Token invalide' }, { status: 401 });
     }
 
     // Vérifier que l'utilisateur existe toujours
     const user = storedToken.user;
     if (!user.isActive) {
-      return NextResponse.json(
-        { success: false, error: 'Compte désactivé' },
-        { status: 401 }
-      );
+      return NextResponse.json({ success: false, error: 'Compte désactivé' }, { status: 401 });
     }
 
     // Générer de nouveaux tokens
@@ -70,7 +61,7 @@ export async function POST(request: NextRequest) {
 
     // Supprimer l'ancien refresh token
     await prisma.refreshToken.delete({
-      where: { id: storedToken.id }
+      where: { id: storedToken.id },
     });
 
     // Sauvegarder le nouveau refresh token
@@ -79,7 +70,7 @@ export async function POST(request: NextRequest) {
         token: newRefreshToken,
         userId: user.id,
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      }
+      },
     });
 
     // Créer la réponse
@@ -99,12 +90,11 @@ export async function POST(request: NextRequest) {
     setAuthCookies(response, accessToken, newRefreshToken);
 
     return response;
-
   } catch (error) {
     console.error('Refresh error:', error);
     return NextResponse.json(
       { success: false, error: 'Erreur lors du rafraîchissement' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

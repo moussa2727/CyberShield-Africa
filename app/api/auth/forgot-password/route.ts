@@ -16,16 +16,16 @@ const forgotPasswordSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
+
     // Validation des données
     const validation = forgotPasswordSchema.safeParse(body);
     if (!validation.success) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Email invalide' 
+        {
+          success: false,
+          error: 'Email invalide',
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -45,11 +45,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Générer un token de réinitialisation
-    const resetToken = generateToken({
-      userId: user.id,
-      email: user.email,
-      type: 'password_reset',
-    }, { expiresIn: '1h' }); // Expire dans 1 heure
+    const resetToken = generateToken(
+      {
+        userId: user.id,
+        email: user.email,
+        type: 'password_reset',
+      },
+      { expiresIn: '1h' },
+    ); // Expire dans 1 heure
 
     // Mettre à jour le token de réinitialisation de l'utilisateur
     await prisma.user.update({
@@ -76,15 +79,14 @@ export async function POST(request: NextRequest) {
       success: true,
       message: 'Si un compte existe avec cet email, un lien de réinitialisation sera envoyé',
     });
-
   } catch (error) {
     console.error('Forgot password error:', error);
     return NextResponse.json(
-      { 
-        success: false, 
-        error: 'Une erreur est survenue' 
+      {
+        success: false,
+        error: 'Une erreur est survenue',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,31 +1,34 @@
-'use client'
+'use client';
 
-import Image from 'next/image'
-import { Star, Quote } from 'lucide-react'
+import Image from 'next/image';
+import { Star, Quote } from 'lucide-react';
 
 const testimonials = [
   {
     name: 'Amara Koné',
     position: 'CEO, FinTech Mali',
-    content: 'Cyber Shield Africa a transformé notre approche de la sécurité. Leur expertise et leur réactivité sont exceptionnelles.',
+    content:
+      'Cyber Shield Africa a transformé notre approche de la sécurité. Leur expertise et leur réactivité sont exceptionnelles.',
     rating: 5,
-    image: 'https://randomuser.me/api/portraits/men/1.jpg'
+    image: 'https://randomuser.me/api/portraits/men/1.jpg',
   },
   {
     name: 'Fatima Zahra',
     position: 'Directrice IT, Banque Digitale',
-    content: 'Des audits approfondis et des recommandations claires. Notre infrastructure est désormais plus sécurisée que jamais.',
+    content:
+      'Des audits approfondis et des recommandations claires. Notre infrastructure est désormais plus sécurisée que jamais.',
     rating: 5,
-    image: 'https://randomuser.me/api/portraits/women/1.jpg'
+    image: 'https://randomuser.me/api/portraits/women/1.jpg',
   },
   {
     name: 'Mohamed Diop',
     position: 'Fondateur, Startup Sénégal',
-    content: 'Leur approche pédagogique nous a permis de comprendre les enjeux et de former nos équipes efficacement.',
+    content:
+      'Leur approche pédagogique nous a permis de comprendre les enjeux et de former nos équipes efficacement.',
     rating: 5,
-    image: 'https://randomuser.me/api/portraits/men/2.jpg'
-  }
-]
+    image: 'https://randomuser.me/api/portraits/men/2.jpg',
+  },
+];
 
 export default function Testimonials() {
   return (
@@ -51,7 +54,7 @@ export default function Testimonials() {
             >
               <Quote className="w-8 h-8 text-orange-300 mb-4" />
               <p className="text-gray-600 mb-6 italic">{testimonial.content}</p>
-              
+
               <div className="flex items-center gap-4">
                 <Image
                   src={testimonial.image}
@@ -65,7 +68,7 @@ export default function Testimonials() {
                   <p className="text-sm text-gray-500">{testimonial.position}</p>
                 </div>
               </div>
-              
+
               <div className="flex gap-1 mt-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
                   <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />
@@ -76,5 +79,5 @@ export default function Testimonials() {
         </div>
       </div>
     </section>
-  )
+  );
 }

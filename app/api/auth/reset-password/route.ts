@@ -16,17 +16,17 @@ const resetPasswordSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
+
     // Validation des données
     const validation = resetPasswordSchema.safeParse(body);
     if (!validation.success) {
       return NextResponse.json(
-        { 
-          success: false, 
+        {
+          success: false,
           error: 'Données invalides',
-          details: validation.error.issues
+          details: validation.error.issues,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -36,11 +36,11 @@ export async function POST(request: NextRequest) {
     const tokenData = verifyToken(token);
     if (!tokenData || tokenData.type !== 'password_reset') {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Token invalide ou expiré' 
+        {
+          success: false,
+          error: 'Token invalide ou expiré',
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -57,11 +57,11 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Token invalide ou expiré' 
+        {
+          success: false,
+          error: 'Token invalide ou expiré',
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -82,15 +82,14 @@ export async function POST(request: NextRequest) {
       success: true,
       message: 'Mot de passe réinitialisé avec succès',
     });
-
   } catch (error) {
     console.error('Reset password error:', error);
     return NextResponse.json(
-      { 
-        success: false, 
-        error: 'Une erreur est survenue' 
+      {
+        success: false,
+        error: 'Une erreur est survenue',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
