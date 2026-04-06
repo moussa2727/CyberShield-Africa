@@ -18,7 +18,6 @@ import {
   ChevronRight,
   Loader2,
   X,
-  FileText,
   RefreshCw,
   CheckSquare,
   Mail,
@@ -46,17 +45,6 @@ interface Message {
   deletedAt?: string;
 }
 
-interface MessagesResponse {
-  data: Message[];
-  meta: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-    unreadCount: number;
-  };
-}
-
 interface Statistics {
   total: number;
   unread: number;
@@ -78,7 +66,7 @@ export default function MessagesAdmin() {
   const [filters, setFilters] = useState({
     page: 1,
     limit: 10,
-    isRead: false as boolean | undefined, // Par défaut: seulement les messages non lus
+    isRead: false as boolean | undefined,
     isReplied: undefined as boolean | undefined,
     search: '',
     email: '',
@@ -377,30 +365,31 @@ export default function MessagesAdmin() {
 
   return (
     <AdminLayout title="Gestion des messages">
-      <div className="min-h-screen bg-gray-50 overflow-x-hidden">
-        {/* Header */}
-        <div className="bg-linear-to-r from-orange-500 to-orange-600 text-white shadow-lg">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex justify-between items-center">
+      <div className="min-h-screen bg-gray-50">
+        {/* Header - Version épurée sans dégradé agressif */}
+        <div className="bg-orange-600 text-white shadow-md">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+            <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:justify-between sm:items-center gap-3">
               <div>
-                <h1 className="text-3xl font-bold">Gestion des Messages</h1>
-                <p className="text-orange-100 mt-1">Consultez et gérez les messages de contact</p>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">Gestion des Messages</h1>
+                <p className="text-orange-100 text-sm sm:text-base mt-0.5 sm:mt-1">
+                  Consultez et gérez les messages de contact
+                </p>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                 <button
                   onClick={handleRefresh}
                   disabled={refreshing || loading}
-                  className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-                  title="Actualiser"
+                  className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors disabled:opacity-60 disabled:cursor-not-allowed text-sm w-full sm:w-auto"
                 >
-                  <RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} />
+                  <RefreshCw size={16} className={refreshing ? 'animate-spin' : ''} />
                   <span>{refreshing ? 'Actualisation...' : 'Actualiser'}</span>
                 </button>
                 <button
                   onClick={markAllAsRead}
-                  className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+                  className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-sm w-full sm:w-auto"
                 >
-                  <CheckSquare size={18} />
+                  <CheckSquare size={16} />
                   <span>Tout marquer comme lu</span>
                 </button>
               </div>
@@ -408,71 +397,79 @@ export default function MessagesAdmin() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-          {/* Statistiques */}
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8">
+          {/* Statistiques - Version responsive */}
           {statistics && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
-              <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-orange-500">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
+              <div className="bg-white rounded-lg shadow p-4 sm:p-5 lg:p-6 border-l-4 border-orange-500">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-gray-500 text-sm">Total messages</p>
-                    <p className="text-2xl font-bold text-gray-800">{statistics.total}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-gray-500 text-xs sm:text-sm">Total messages</p>
+                    <p className="text-xl sm:text-2xl font-bold text-gray-800 truncate">
+                      {statistics.total}
+                    </p>
                   </div>
-                  <MessageSquare className="text-orange-500" size={32} />
+                  <MessageSquare className="text-orange-500 flex-shrink-0" size={24} />
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
+              <div className="bg-white rounded-lg shadow p-4 sm:p-5 lg:p-6 border-l-4 border-green-500">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-gray-500 text-sm">Non lus</p>
-                    <p className="text-2xl font-bold text-green-600">{statistics.unread}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-gray-500 text-xs sm:text-sm">Non lus</p>
+                    <p className="text-xl sm:text-2xl font-bold text-green-600 truncate">
+                      {statistics.unread}
+                    </p>
                   </div>
-                  <Mail className="text-green-500" size={32} />
+                  <Mail className="text-green-500 flex-shrink-0" size={24} />
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+              <div className="bg-white rounded-lg shadow p-4 sm:p-5 lg:p-6 border-l-4 border-blue-500">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-gray-500 text-sm">Répondus</p>
-                    <p className="text-2xl font-bold text-blue-600">{statistics.replied}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-gray-500 text-xs sm:text-sm">Répondus</p>
+                    <p className="text-xl sm:text-2xl font-bold text-blue-600 truncate">
+                      {statistics.replied}
+                    </p>
                   </div>
-                  <Reply className="text-blue-500" size={32} />
+                  <Reply className="text-blue-500 flex-shrink-0" size={24} />
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500">
+              <div className="bg-white rounded-lg shadow p-4 sm:p-5 lg:p-6 border-l-4 border-purple-500">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-gray-500 text-sm">Aujourd'hui</p>
-                    <p className="text-2xl font-bold text-purple-600">{statistics.today}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-gray-500 text-xs sm:text-sm">Aujourd'hui</p>
+                    <p className="text-xl sm:text-2xl font-bold text-purple-600 truncate">
+                      {statistics.today}
+                    </p>
                   </div>
-                  <Clock className="text-purple-500" size={32} />
+                  <Clock className="text-purple-500 flex-shrink-0" size={24} />
                 </div>
               </div>
             </div>
           )}
 
-          {/* Filtres */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-            <div className="flex items-center gap-2 mb-4">
-              <Filter size={20} className="text-orange-500" />
-              <h2 className="text-lg font-semibold text-gray-800">Filtres</h2>
+          {/* Filtres - Version responsive */}
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6 mb-6 sm:mb-8">
+            <div className="flex items-center gap-2 mb-3 sm:mb-4">
+              <Filter size={18} className="text-orange-500" />
+              <h2 className="text-base sm:text-lg font-semibold text-gray-800">Filtres</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               <div className="relative">
                 <Search
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                  size={18}
+                  size={16}
                 />
                 <input
                   type="text"
                   placeholder="Rechercher..."
                   value={filters.search}
                   onChange={(e) => setFilters({ ...filters, search: e.target.value, page: 1 })}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-none focus:outline-none focus:border-orange-500"
+                  className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
                 />
               </div>
 
@@ -486,7 +483,7 @@ export default function MessagesAdmin() {
                     page: 1,
                   });
                 }}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-none focus:outline-none focus:border-orange-500"
+                className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
               >
                 <option value="">Tous les statuts</option>
                 <option value="false">Non lus</option>
@@ -503,7 +500,7 @@ export default function MessagesAdmin() {
                     page: 1,
                   });
                 }}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-none focus:outline-none focus:border-orange-500"
+                className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
               >
                 <option value="">Tous les réponses</option>
                 <option value="false">Non répondus</option>
@@ -512,19 +509,19 @@ export default function MessagesAdmin() {
 
               <button
                 onClick={() => setShowExportModal(true)}
-                className="flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                className="flex items-center justify-center gap-2 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm"
               >
-                <Download size={18} />
+                <Download size={16} />
                 <span>Exporter</span>
               </button>
             </div>
 
-            <div className="mt-4 flex justify-between items-center">
+            <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
               <div className="flex gap-2">
                 <select
                   value={filters.sortBy}
                   onChange={(e) => setFilters({ ...filters, sortBy: e.target.value as any })}
-                  className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-none focus:outline-none focus:border-orange-500"
+                  className="px-2 py-1 text-xs sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
                 >
                   <option value="createdAt">Date de création</option>
                   <option value="updatedAt">Date de mise à jour</option>
@@ -535,298 +532,415 @@ export default function MessagesAdmin() {
                 <select
                   value={filters.sortOrder}
                   onChange={(e) => setFilters({ ...filters, sortOrder: e.target.value as any })}
-                  className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-none focus:outline-none focus:border-orange-500"
+                  className="px-2 py-1 text-xs sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
                 >
                   <option value="desc">Décroissant</option>
                   <option value="asc">Croissant</option>
                 </select>
               </div>
 
-              <div className="text-sm text-gray-500">
+              <div className="text-xs sm:text-sm text-gray-500">
                 {unreadCount} message{unreadCount > 1 ? 's' : ''} non lu{unreadCount > 1 ? 's' : ''}
               </div>
             </div>
           </div>
 
-          {/* Liste des messages */}
+          {/* Liste des messages - Version responsive avec vue mobile adaptée */}
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <Loader2 className="animate-spin text-orange-500" size={48} />
+              <Loader2 className="animate-spin text-orange-500" size={32} />
             </div>
           ) : error ? (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 flex items-center gap-2">
-              <AlertCircle size={20} />
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4 text-red-700 flex items-center gap-2 text-sm">
+              <AlertCircle size={18} />
               <span>{error}</span>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
-              {/* Tableau des messages */}
-              <div className="lg:col-span-3 min-w-0">
+            <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+              {/* Version mobile: vue carte, version desktop: tableau */}
+              <div className="flex-1 min-w-0">
                 {messages.length === 0 ? (
-                  <div className="bg-white rounded-lg shadow-md p-8 text-center text-gray-500">
-                    <Mail className="mx-auto mb-2" size={48} />
+                  <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+                    <Mail className="mx-auto mb-2" size={40} />
                     <p>Aucun message trouvé</p>
                   </div>
                 ) : (
-                  <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                    <div className="overflow-x-auto">
-                      <table className="w-full">
-                        <thead className="bg-gray-50 border-b border-gray-200">
-                          <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Contact
-                            </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Message
-                            </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Date
-                            </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Statut
-                            </th>
-                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Actions
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                          {messages.map((message) => (
-                            <tr
-                              key={message.id}
-                              className={`hover:bg-gray-50 cursor-pointer transition-colors ${
-                                selectedMessage?.id === message.id ? 'bg-orange-50' : ''
-                              }`}
-                              onClick={() => fetchMessage(message.id)}
-                            >
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="flex items-center">
-                                  <div className="shrink-0 h-10 w-10">
-                                    <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
-                                      <span className="text-sm font-medium text-orange-600">
-                                        {message.fullName.charAt(0).toUpperCase()}
+                  <>
+                    {/* Version mobile - Vue carte */}
+                    <div className="block lg:hidden space-y-3">
+                      {messages.map((message) => (
+                        <div
+                          key={message.id}
+                          className={`bg-white rounded-lg shadow p-4 cursor-pointer transition-colors ${
+                            selectedMessage?.id === message.id
+                              ? 'bg-orange-50 border-orange-200 border'
+                              : ''
+                          }`}
+                          onClick={() => fetchMessage(message.id)}
+                        >
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex items-center flex-1 min-w-0">
+                              <div className="flex-shrink-0 h-10 w-10">
+                                <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                  <span className="text-sm font-medium text-orange-600">
+                                    {message.fullName.charAt(0).toUpperCase()}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="ml-3 flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900 truncate">
+                                  {message.fullName}
+                                </p>
+                                <p className="text-xs text-gray-500 truncate">{message.email}</p>
+                              </div>
+                            </div>
+                            <div className="flex gap-1 ml-2">
+                              {!message.isRead && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    markAsRead(message.id, true);
+                                  }}
+                                  className="p-1 text-green-600 hover:text-green-900"
+                                  title="Marquer comme lu"
+                                >
+                                  <MailOpen size={14} />
+                                </button>
+                              )}
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedMessage(message);
+                                  setShowReplyModal(true);
+                                }}
+                                className="p-1 text-orange-600 hover:text-orange-900"
+                                title="Répondre"
+                              >
+                                <Reply size={14} />
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedMessage(message);
+                                  setShowDeleteModal(true);
+                                }}
+                                className="p-1 text-red-600 hover:text-red-900"
+                                title="Supprimer"
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-600 line-clamp-2 mb-2">
+                            {message.message}
+                          </p>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-gray-400">{formatDate(message.createdAt)}</span>
+                            <div className="flex gap-1">
+                              {!message.isRead && (
+                                <span className="px-2 py-0.5 rounded-full bg-green-100 text-green-800 text-xs">
+                                  Non lu
+                                </span>
+                              )}
+                              {message.isReplied && (
+                                <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-xs">
+                                  Répondu
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Version desktop - Tableau */}
+                    <div className="hidden lg:block bg-white rounded-lg shadow overflow-hidden">
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead className="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                Contact
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                Message
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                Date
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                Statut
+                              </th>
+                              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+                                Actions
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="bg-white divide-y divide-gray-200">
+                            {messages.map((message) => (
+                              <tr
+                                key={message.id}
+                                className={`hover:bg-gray-50 cursor-pointer transition-colors ${
+                                  selectedMessage?.id === message.id ? 'bg-orange-50' : ''
+                                }`}
+                                onClick={() => fetchMessage(message.id)}
+                              >
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="flex items-center">
+                                    <div className="flex-shrink-0 h-10 w-10">
+                                      <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                                        <span className="text-sm font-medium text-orange-600">
+                                          {message.fullName.charAt(0).toUpperCase()}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div className="ml-4">
+                                      <div className="text-sm font-medium text-gray-900">
+                                        {message.fullName}
+                                      </div>
+                                      <div className="text-sm text-gray-500">{message.email}</div>
+                                      {message.company && (
+                                        <div className="text-xs text-gray-400">
+                                          {message.company}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                  <div className="text-sm text-gray-900">
+                                    <p className="line-clamp-2 max-w-xs">{message.message}</p>
+                                  </div>
+                                  {message.service && (
+                                    <div className="mt-1">
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        {message.service}
                                       </span>
                                     </div>
-                                  </div>
-                                  <div className="ml-4">
-                                    <div className="text-sm font-medium text-gray-900">
-                                      {message.fullName}
-                                    </div>
-                                    <div className="text-sm text-gray-500">{message.email}</div>
-                                    {message.company && (
-                                      <div className="text-xs text-gray-400">{message.company}</div>
+                                  )}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                  {formatDate(message.createdAt)}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="flex items-center space-x-2">
+                                    {!message.isRead && (
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Non lu
+                                      </span>
+                                    )}
+                                    {message.isRead && (
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        Lu
+                                      </span>
+                                    )}
+                                    {message.isReplied && (
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        Répondu
+                                      </span>
                                     )}
                                   </div>
-                                </div>
-                              </td>
-                              <td className="px-6 py-4">
-                                <div className="text-sm text-gray-900">
-                                  <p className="line-clamp-2 max-w-xs">{message.message}</p>
-                                </div>
-                                {message.service && (
-                                  <div className="mt-1">
-                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                      {message.service}
-                                    </span>
-                                  </div>
-                                )}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {formatDate(message.createdAt)}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="flex items-center space-x-2">
-                                  {!message.isRead && (
-                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                      Non lu
-                                    </span>
-                                  )}
-                                  {message.isRead && (
-                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                      Lu
-                                    </span>
-                                  )}
-                                  {message.isReplied && (
-                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                      Répondu
-                                    </span>
-                                  )}
-                                </div>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <div className="flex justify-end space-x-2">
-                                  {!message.isRead && (
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                  <div className="flex justify-end space-x-2">
+                                    {!message.isRead && (
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          markAsRead(message.id, true);
+                                        }}
+                                        className="text-green-600 hover:text-green-900"
+                                        title="Marquer comme lu"
+                                      >
+                                        <MailOpen size={16} />
+                                      </button>
+                                    )}
                                     <button
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        markAsRead(message.id, true);
+                                        setSelectedMessage(message);
+                                        setShowReplyModal(true);
                                       }}
-                                      className="text-green-600 hover:text-green-900 transition-colors"
-                                      title="Marquer comme lu"
+                                      className="text-orange-600 hover:text-orange-900"
+                                      title="Répondre"
                                     >
-                                      <MailOpen size={16} />
+                                      <Reply size={16} />
                                     </button>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedMessage(message);
+                                        setShowDeleteModal(true);
+                                      }}
+                                      className="text-red-600 hover:text-red-900"
+                                      title="Supprimer"
+                                    >
+                                      <Trash2 size={16} />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      {/* Pagination */}
+                      {totalPages > 1 && (
+                        <div className="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                          <div className="flex-1 flex justify-between sm:hidden">
+                            <button
+                              onClick={() => setFilters({ ...filters, page: filters.page - 1 })}
+                              disabled={filters.page === 1}
+                              className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              Précédent
+                            </button>
+                            <button
+                              onClick={() => setFilters({ ...filters, page: filters.page + 1 })}
+                              disabled={filters.page === totalPages}
+                              className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              Suivant
+                            </button>
+                          </div>
+                          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                              <p className="text-sm text-gray-700">
+                                Affichage de{' '}
+                                <span className="font-medium">
+                                  {(filters.page - 1) * filters.limit + 1}
+                                </span>{' '}
+                                à{' '}
+                                <span className="font-medium">
+                                  {Math.min(
+                                    filters.page * filters.limit,
+                                    messages.length + (filters.page - 1) * filters.limit,
                                   )}
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setSelectedMessage(message);
-                                      setShowReplyModal(true);
-                                    }}
-                                    className="text-orange-600 hover:text-orange-900 transition-colors"
-                                    title="Répondre"
-                                  >
-                                    <Reply size={16} />
-                                  </button>
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setSelectedMessage(message);
-                                      setShowDeleteModal(true);
-                                    }}
-                                    className="text-red-600 hover:text-red-900 transition-colors"
-                                    title="Supprimer"
-                                  >
-                                    <Trash2 size={16} />
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                                </span>{' '}
+                                sur{' '}
+                                <span className="font-medium">
+                                  {messages.length + (totalPages - filters.page) * filters.limit}
+                                </span>{' '}
+                                résultats
+                              </p>
+                            </div>
+                            <div>
+                              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                                <button
+                                  onClick={() => setFilters({ ...filters, page: filters.page - 1 })}
+                                  disabled={filters.page === 1}
+                                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                  <ChevronLeft size={16} />
+                                </button>
+                                <span className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                                  Page {filters.page} sur {totalPages}
+                                </span>
+                                <button
+                                  onClick={() => setFilters({ ...filters, page: filters.page + 1 })}
+                                  disabled={filters.page === totalPages}
+                                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                  <ChevronRight size={16} />
+                                </button>
+                              </nav>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
-                    {/* Pagination */}
+                    {/* Pagination mobile */}
                     {totalPages > 1 && (
-                      <div className="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-                        <div className="flex-1 flex justify-between sm:hidden">
+                      <div className="mt-4 flex justify-center lg:hidden">
+                        <div className="flex gap-2">
                           <button
                             onClick={() => setFilters({ ...filters, page: filters.page - 1 })}
                             disabled={filters.page === 1}
-                            className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-3 py-1 border border-gray-300 rounded-lg text-sm disabled:opacity-50"
                           >
                             Précédent
                           </button>
+                          <span className="px-3 py-1 text-sm">
+                            Page {filters.page} / {totalPages}
+                          </span>
                           <button
                             onClick={() => setFilters({ ...filters, page: filters.page + 1 })}
                             disabled={filters.page === totalPages}
-                            className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-3 py-1 border border-gray-300 rounded-lg text-sm disabled:opacity-50"
                           >
                             Suivant
                           </button>
                         </div>
-                        <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                          <div>
-                            <p className="text-sm text-gray-700">
-                              Affichage de{' '}
-                              <span className="font-medium">
-                                {(filters.page - 1) * filters.limit + 1}
-                              </span>{' '}
-                              à{' '}
-                              <span className="font-medium">
-                                {Math.min(
-                                  filters.page * filters.limit,
-                                  messages.length + (filters.page - 1) * filters.limit,
-                                )}
-                              </span>{' '}
-                              sur{' '}
-                              <span className="font-medium">
-                                {messages.length + (totalPages - filters.page) * filters.limit}
-                              </span>{' '}
-                              résultats
-                            </p>
-                          </div>
-                          <div>
-                            <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                              <button
-                                onClick={() => setFilters({ ...filters, page: filters.page - 1 })}
-                                disabled={filters.page === 1}
-                                className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                              >
-                                <ChevronLeft size={16} />
-                              </button>
-                              <span className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                                Page {filters.page} sur {totalPages}
-                              </span>
-                              <button
-                                onClick={() => setFilters({ ...filters, page: filters.page + 1 })}
-                                disabled={filters.page === totalPages}
-                                className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                              >
-                                <ChevronRight size={16} />
-                              </button>
-                            </nav>
-                          </div>
-                        </div>
                       </div>
                     )}
-                  </div>
+                  </>
                 )}
               </div>
 
-              {/* Détails du message sélectionné */}
-              <div className="lg:col-span-2 min-w-0">
+              {/* Détails du message sélectionné - Version responsive */}
+              <div className="lg:w-96 xl:w-[480px] flex-shrink-0">
                 {selectedMessage ? (
-                  <div className="bg-white rounded-lg shadow-md p-6 overflow-hidden">
-                    <div className="flex flex-col lg:flex-row justify-between items-start mb-6 gap-4">
+                  <div className="bg-white rounded-lg shadow p-4 sm:p-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-4">
                       <div className="flex-1 min-w-0">
-                        <h2 className="text-2xl font-bold text-gray-800 wrap-break-word">
+                        <h2 className="text-lg sm:text-xl font-bold text-gray-800 break-words">
                           {selectedMessage.fullName}
                         </h2>
-                        <p className="text-gray-500 wrap-break-word">{selectedMessage.email}</p>
+                        <p className="text-sm text-gray-500 break-words">{selectedMessage.email}</p>
                         {selectedMessage.company && (
-                          <p className="text-sm text-gray-500 wrap-break-word">
+                          <p className="text-xs text-gray-500 break-words mt-1">
                             Entreprise: {selectedMessage.company}
                           </p>
                         )}
                         {selectedMessage.service && (
-                          <p className="text-sm text-gray-500 wrap-break-word">
+                          <p className="text-xs text-gray-500 break-words">
                             Service: {selectedMessage.service}
                           </p>
                         )}
                       </div>
-                      <div className="flex shrink-0 gap-2">
+                      <div className="flex flex-wrap gap-2">
                         {!selectedMessage.isRead && (
                           <button
                             onClick={() => markAsRead(selectedMessage.id, true)}
-                            className="flex items-center gap-2 px-3 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm whitespace-nowrap"
+                            className="flex items-center gap-1 px-2 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600 text-xs whitespace-nowrap"
                           >
-                            <CheckCircle size={16} />
-                            <span>Marquer comme lu</span>
+                            <CheckCircle size={12} />
+                            <span className="hidden xs:inline">Marquer lu</span>
                           </button>
                         )}
                         <button
                           onClick={() => setShowReplyModal(true)}
-                          className="flex items-center gap-2 px-3 py-1 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm whitespace-nowrap"
+                          className="flex items-center gap-1 px-2 py-1 bg-orange-500 text-white rounded-lg hover:bg-orange-600 text-xs whitespace-nowrap"
                         >
-                          <Reply size={16} />
+                          <Reply size={12} />
                           <span>Répondre</span>
                         </button>
                         <button
                           onClick={() => setShowDeleteModal(true)}
-                          className="flex items-center gap-2 px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm whitespace-nowrap"
+                          className="flex items-center gap-1 px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 text-xs whitespace-nowrap"
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={12} />
                           <span>Supprimer</span>
                         </button>
                       </div>
                     </div>
 
-                    <div className="mb-6">
-                      <h3 className="text-lg font-semibold text-gray-700 mb-2">Message</h3>
-                      <div className="bg-gray-50 rounded-lg p-4 overflow-x-auto">
-                        <p className="text-gray-700 whitespace-pre-wrap wrap-break-word">
+                    <div className="mb-4">
+                      <h3 className="text-sm font-semibold text-gray-700 mb-2">Message</h3>
+                      <div className="bg-gray-50 rounded-lg p-3 max-h-64 overflow-y-auto">
+                        <p className="text-sm text-gray-700 whitespace-pre-wrap break-words">
                           {selectedMessage.message}
                         </p>
                       </div>
                     </div>
 
                     {selectedMessage.adminResponse && (
-                      <div className="mb-6">
-                        <h3 className="text-lg font-semibold text-gray-700 mb-2">Votre réponse</h3>
-                        <div className="bg-orange-50 rounded-lg p-4 border-l-4 border-orange-500">
-                          <p className="text-gray-700 whitespace-pre-wrap">
+                      <div className="mb-4">
+                        <h3 className="text-sm font-semibold text-gray-700 mb-2">Votre réponse</h3>
+                        <div className="bg-orange-50 rounded-lg p-3 border-l-4 border-orange-500">
+                          <p className="text-sm text-gray-700 whitespace-pre-wrap break-words">
                             {selectedMessage.adminResponse}
                           </p>
                           {selectedMessage.respondedAt && (
@@ -838,15 +952,17 @@ export default function MessagesAdmin() {
                       </div>
                     )}
 
-                    <div className="text-sm text-gray-400 pt-4 border-t">
+                    <div className="text-xs text-gray-400 pt-3 border-t">
                       <p>Reçu le {formatDate(selectedMessage.createdAt)}</p>
-                      <p>Dernière modification: {formatDate(selectedMessage.updatedAt)}</p>
+                      <p className="mt-1">
+                        Dernière modification: {formatDate(selectedMessage.updatedAt)}
+                      </p>
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-white rounded-lg shadow-md p-12 text-center text-gray-500">
-                    <MessageSquare className="mx-auto mb-4" size={64} />
-                    <p className="text-lg">Sélectionnez un message pour voir les détails</p>
+                  <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+                    <MessageSquare className="mx-auto mb-3" size={48} />
+                    <p className="text-sm">Sélectionnez un message pour voir les détails</p>
                   </div>
                 )}
               </div>
@@ -854,27 +970,27 @@ export default function MessagesAdmin() {
           )}
         </div>
 
-        {/* Modale de réponse */}
+        {/* Modale de réponse - Version avec fond clair */}
         {showReplyModal && selectedMessage && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-auto">
-              <div className="flex justify-between items-center p-6 border-b">
-                <h2 className="text-2xl font-bold text-gray-800">
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4 bg-black/50 overflow-y-auto">
+            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col">
+              <div className="flex justify-between items-center p-4 sm:p-6 border-b">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-800">
                   Répondre à {selectedMessage.fullName}
                 </h2>
                 <button
                   onClick={() => setShowReplyModal(false)}
                   className="text-gray-400 hover:text-gray-600"
                 >
-                  <X size={24} />
+                  <X size={20} />
                 </button>
               </div>
 
-              <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-sm text-gray-500 mb-2">Message original:</p>
-                  <div className="bg-white rounded-lg p-4 max-h-[30vh] overflow-y-auto border border-gray-200">
-                    <p className="text-gray-700 whitespace-pre-wrap wrap-break-word">
+              <div className="flex-1 p-4 sm:p-6 space-y-4 overflow-y-auto">
+                <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
+                  <p className="text-xs sm:text-sm text-gray-500 mb-2">Message original:</p>
+                  <div className="bg-white rounded-lg p-3 max-h-40 overflow-y-auto border border-gray-200">
+                    <p className="text-sm text-gray-700 whitespace-pre-wrap break-words">
                       {selectedMessage.message}
                     </p>
                   </div>
@@ -887,8 +1003,8 @@ export default function MessagesAdmin() {
                   <textarea
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
-                    rows={6}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-none focus:outline-none focus:border-orange-500t"
+                    rows={5}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500"
                     placeholder="Écrivez votre réponse ici..."
                   />
                   <p className="text-xs text-gray-500 mt-1">
@@ -897,19 +1013,19 @@ export default function MessagesAdmin() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 p-6 border-t">
+              <div className="flex justify-end gap-3 p-4 sm:p-6 border-t">
                 <button
                   onClick={() => setShowReplyModal(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   Annuler
                 </button>
                 <button
                   onClick={sendReply}
                   disabled={replying || replyText.length < 10}
-                  className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2 px-3 py-2 text-sm bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {replying && <Loader2 className="animate-spin" size={18} />}
+                  {replying && <Loader2 className="animate-spin" size={16} />}
                   <span>Envoyer la réponse</span>
                 </button>
               </div>
@@ -919,17 +1035,17 @@ export default function MessagesAdmin() {
 
         {/* Modale de suppression */}
         {showDeleteModal && selectedMessage && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-            <div className="bg-white rounded-lg shadow-xl max-w-md w-full m-auto">
-              <div className="p-6">
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4 bg-black/50 overflow-y-auto">
+            <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+              <div className="p-4 sm:p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                    <Trash2 className="text-red-600" size={24} />
+                  <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Trash2 className="text-red-600" size={20} />
                   </div>
-                  <h2 className="text-xl font-bold text-gray-800">Supprimer le message</h2>
+                  <h2 className="text-lg font-bold text-gray-800">Supprimer le message</h2>
                 </div>
 
-                <p className="text-gray-600 mb-4">
+                <p className="text-sm text-gray-600 mb-4">
                   Êtes-vous sûr de vouloir supprimer le message de{' '}
                   <strong>{selectedMessage.fullName}</strong> ?
                 </p>
@@ -939,7 +1055,7 @@ export default function MessagesAdmin() {
                     type="checkbox"
                     checked={deletePermanent}
                     onChange={(e) => setDeletePermanent(e.target.checked)}
-                    className="rounded border-gray-300 text-red-500 focus:ring-none focus:outline-none focus:border-red-500"
+                    className="rounded border-gray-300 text-red-500 focus:ring-red-500"
                   />
                   <span className="text-sm text-gray-700">
                     Supprimer définitivement (ne pourra pas être restauré)
@@ -949,16 +1065,16 @@ export default function MessagesAdmin() {
                 <div className="flex justify-end gap-3">
                   <button
                     onClick={() => setShowDeleteModal(false)}
-                    className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50"
                   >
                     Annuler
                   </button>
                   <button
                     onClick={deleteMessage}
                     disabled={deleting}
-                    className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50"
+                    className="flex items-center gap-2 px-3 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 disabled:opacity-50"
                   >
-                    {deleting && <Loader2 className="animate-spin" size={18} />}
+                    {deleting && <Loader2 className="animate-spin" size={16} />}
                     <span>Supprimer</span>
                   </button>
                 </div>
@@ -969,14 +1085,14 @@ export default function MessagesAdmin() {
 
         {/* Modale d'export */}
         {showExportModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-            <div className="bg-white rounded-lg shadow-xl max-w-md w-full m-auto">
-              <div className="p-6">
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4 bg-black/50 overflow-y-auto">
+            <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+              <div className="p-4 sm:p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                    <Download className="text-green-600" size={24} />
+                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Download className="text-green-600" size={20} />
                   </div>
-                  <h2 className="text-xl font-bold text-gray-800">Exporter les messages</h2>
+                  <h2 className="text-lg font-bold text-gray-800">Exporter les messages</h2>
                 </div>
 
                 <div className="space-y-4">
@@ -987,14 +1103,14 @@ export default function MessagesAdmin() {
                     <select
                       value={exportFormat}
                       onChange={(e) => setExportFormat(e.target.value as 'csv' | 'excel')}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-none focus:outline-none focus:border-green-500"
+                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
                     >
                       <option value="csv">CSV</option>
                       <option value="excel">Excel (XLSX)</option>
                     </select>
                   </div>
 
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs text-gray-500">
                     L'export utilisera les filtres actuels (recherche, statuts, dates).
                   </p>
                 </div>
@@ -1002,16 +1118,16 @@ export default function MessagesAdmin() {
                 <div className="flex justify-end gap-3 mt-6">
                   <button
                     onClick={() => setShowExportModal(false)}
-                    className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50"
                   >
                     Annuler
                   </button>
                   <button
                     onClick={exportMessages}
                     disabled={exporting}
-                    className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors disabled:opacity-50"
+                    className="flex items-center gap-2 px-3 py-2 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:opacity-50"
                   >
-                    {exporting && <Loader2 className="animate-spin" size={18} />}
+                    {exporting && <Loader2 className="animate-spin" size={16} />}
                     <span>Exporter</span>
                   </button>
                 </div>

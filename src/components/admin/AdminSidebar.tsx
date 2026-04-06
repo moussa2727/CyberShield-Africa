@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, MessageSquare, Shield, User, LogOut } from 'lucide-react';
+import { Menu, X, MessageSquare, User, LogOut, Settings } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 
 interface SidebarItem {
@@ -46,9 +46,12 @@ export default function AdminSidebar() {
       {/* Header */}
       <div className="p-3 border-b border-gray-700">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 bg-linear-to-r from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
-            <Shield className="text-white" size={14} />
-          </div>
+          <Link
+            href="/"
+            className="w-9 h-9 bg-linear-to-r from-orange-500 to-orange-600 rounded-lg flex items-center justify-center"
+          >
+            <Settings className="text-white" size={25} />
+          </Link>
           <div>
             <h1 className="text-sm font-bold text-white">Admin</h1>
             <p className="text-xs text-gray-400">Panneau</p>
@@ -88,7 +91,6 @@ export default function AdminSidebar() {
           <p className="text-xs font-medium text-white truncate">
             {user?.firstName} {user?.lastName}
           </p>
-          <p className="text-xs text-gray-400 truncate">{user?.email}</p>
           <div className="mt-1">
             <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-orange-600/20 text-orange-400 border border-orange-600/30">
               {user?.role}

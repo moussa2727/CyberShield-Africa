@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import AdminLayout from '@/src/components/admin/AdminLayout';
 import { useRequireAdmin } from '@/src/hooks/useAuth';
 import { toast } from 'sonner';
-import { User, Mail, Key, Shield, Lock, Save, RefreshCw } from 'lucide-react';
+import { User, Mail, Key, Shield, Lock, Save, RefreshCw, Eye, EyeOff } from 'lucide-react';
 
 // Force cette page à être dynamique
 export const dynamic = 'force-dynamic';
@@ -35,6 +35,10 @@ export default function AdminProfile() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordUpdating, setPasswordUpdating] = useState(false);
+
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -171,7 +175,7 @@ export default function AdminProfile() {
         {/* Section Profil */}
         <section className="bg-white rounded-2xl border border-gray-100 shadow-lg shadow-gray-100/50 p-6 transition-all duration-200 hover:shadow-xl">
           <div className="flex items-center gap-3 mb-6 pb-3 border-b border-gray-100">
-            <div className="p-2 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-md">
+            <div className="p-2 bg-linear-to-br from-orange-500 to-orange-600 rounded-xl shadow-md">
               <User className="h-5 w-5 text-white" />
             </div>
             <h2 className="text-xl font-bold text-gray-800">Informations personnelles</h2>
@@ -214,12 +218,12 @@ export default function AdminProfile() {
                   Adresse email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-100 cursor-not-allowed text-gray-500"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-300 bg-white text-gray-800 font-medium cursor-not-allowed"
                     disabled
                   />
                 </div>
@@ -233,7 +237,7 @@ export default function AdminProfile() {
 
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white text-sm font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white text-sm font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={profileUpdating}
               >
                 {profileUpdating ? (
@@ -263,7 +267,7 @@ export default function AdminProfile() {
         {/* Section Mot de passe */}
         <section className="bg-white rounded-2xl border border-gray-100 shadow-lg shadow-gray-100/50 p-6 transition-all duration-200 hover:shadow-xl">
           <div className="flex items-center gap-3 mb-6 pb-3 border-b border-gray-100">
-            <div className="p-2 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-md">
+            <div className="p-2 bg-linear-to-br from-orange-500 to-orange-600 rounded-xl shadow-md">
               <Key className="h-5 w-5 text-white" />
             </div>
             <h2 className="text-xl font-bold text-gray-800">Modifier le mot de passe</h2>
@@ -277,12 +281,24 @@ export default function AdminProfile() {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
-                  type="password"
+                  type={showCurrentPassword ? 'text' : 'password'}
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                  className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                  tabIndex={-1}
+                >
+                  {showCurrentPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
               </div>
             </div>
 
@@ -293,12 +309,20 @@ export default function AdminProfile() {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
-                  type="password"
+                  type={showNewPassword ? 'text' : 'password'}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                  className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                  tabIndex={-1}
+                >
+                  {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
               </div>
               <p className="mt-1 text-xs text-gray-500">
                 Minimum 8 caractères pour plus de sécurité
@@ -312,18 +336,30 @@ export default function AdminProfile() {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
-                  type="password"
+                  type={showConfirmPassword ? 'text' : 'password'}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                  className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                  tabIndex={-1}
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
               </div>
             </div>
 
             <button
               type="submit"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white text-sm font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white text-sm font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={passwordUpdating}
             >
               {passwordUpdating ? (
