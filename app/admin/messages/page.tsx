@@ -888,7 +888,9 @@ export default function MessagesAdmin() {
                         <h2 className="text-lg sm:text-xl font-bold text-gray-800 wrap-break-words">
                           {selectedMessage.fullName}
                         </h2>
-                        <p className="text-sm text-gray-500 wrap-break-word">{selectedMessage.email}</p>
+                        <p className="text-sm text-gray-500 wrap-break-word">
+                          {selectedMessage.email}
+                        </p>
                         {selectedMessage.company && (
                           <p className="text-xs text-gray-500 wrap-break-word mt-1">
                             Entreprise: {selectedMessage.company}

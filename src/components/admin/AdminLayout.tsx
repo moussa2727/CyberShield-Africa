@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import AdminSidebar from './AdminSidebar';
 
 interface AdminLayoutProps {
@@ -9,12 +9,17 @@ interface AdminLayoutProps {
 }
 
 export default function AdminLayout({ children, title }: AdminLayoutProps) {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <AdminSidebar />
+      <AdminSidebar
+        isCollapsed={isSidebarCollapsed}
+        onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+      />
 
       {/* Main Content */}
-      <div className="lg:pl-56">
+      <div className={`transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-0' : 'lg:pl-56'}`}>
         {/* Mobile Top Bar */}
         <div className="lg:hidden pt-16">
           <div className="bg-white border-b border-gray-200 px-4 py-3">

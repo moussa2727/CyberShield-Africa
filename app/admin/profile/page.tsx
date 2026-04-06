@@ -238,7 +238,10 @@ export default function AdminProfile() {
               <button
                 type="submit"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white text-sm font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={profileUpdating || (firstName === profile?.firstName && lastName === profile?.lastName)}
+                disabled={
+                  profileUpdating ||
+                  (firstName === profile?.firstName && lastName === profile?.lastName)
+                }
               >
                 {profileUpdating ? (
                   <>
