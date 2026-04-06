@@ -192,7 +192,7 @@ export default function AdminProfile() {
                       type="text"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                      className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-none hover:border-orange-400 transition-all duration-200 outline-none"
                       required
                     />
                   </div>
@@ -206,7 +206,7 @@ export default function AdminProfile() {
                       type="text"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                      className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-none hover:border-orange-400 transition-all duration-200 outline-none"
                       required
                     />
                   </div>
@@ -238,7 +238,7 @@ export default function AdminProfile() {
               <button
                 type="submit"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white text-sm font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={profileUpdating}
+                disabled={profileUpdating || (firstName === profile?.firstName && lastName === profile?.lastName)}
               >
                 {profileUpdating ? (
                   <>
@@ -284,7 +284,7 @@ export default function AdminProfile() {
                   type={showCurrentPassword ? 'text' : 'password'}
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
-                  className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                  className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 hover:border-orange-400 focus:bg-white focus:border-orange-400 focus:ring-none focus:outline-none transition-all duration-200 outline-none"
                   required
                 />
                 <button
@@ -312,7 +312,7 @@ export default function AdminProfile() {
                   type={showNewPassword ? 'text' : 'password'}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                  className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 hover:border-orange-400 focus:bg-white focus:border-orange-400 focus:ring-none focus:outline-none transition-all duration-200 outline-none"
                   required
                 />
                 <button
@@ -339,7 +339,7 @@ export default function AdminProfile() {
                   type={showConfirmPassword ? 'text' : 'password'}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 transition-all duration-200 outline-none"
+                  className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 hover:border-orange-400 focus:bg-white focus:border-orange-400 focus:ring-none focus:outline-none transition-all duration-200 outline-none"
                   required
                 />
                 <button

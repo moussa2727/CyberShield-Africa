@@ -409,7 +409,7 @@ export default function MessagesAdmin() {
                       {statistics.total}
                     </p>
                   </div>
-                  <MessageSquare className="text-orange-500 flex-shrink-0" size={24} />
+                  <MessageSquare className="text-orange-500 shrink-0" size={24} />
                 </div>
               </div>
 
@@ -421,7 +421,7 @@ export default function MessagesAdmin() {
                       {statistics.unread}
                     </p>
                   </div>
-                  <Mail className="text-green-500 flex-shrink-0" size={24} />
+                  <Mail className="text-green-500 shrink-0" size={24} />
                 </div>
               </div>
 
@@ -433,7 +433,7 @@ export default function MessagesAdmin() {
                       {statistics.replied}
                     </p>
                   </div>
-                  <Reply className="text-blue-500 flex-shrink-0" size={24} />
+                  <Reply className="text-blue-500 shrink-0" size={24} />
                 </div>
               </div>
 
@@ -445,7 +445,7 @@ export default function MessagesAdmin() {
                       {statistics.today}
                     </p>
                   </div>
-                  <Clock className="text-purple-500 flex-shrink-0" size={24} />
+                  <Clock className="text-purple-500 shrink-0" size={24} />
                 </div>
               </div>
             </div>
@@ -580,7 +580,7 @@ export default function MessagesAdmin() {
                         >
                           <div className="flex items-start justify-between mb-2">
                             <div className="flex items-center flex-1 min-w-0">
-                              <div className="flex-shrink-0 h-10 w-10">
+                              <div className="shrink-0 h-10 w-10">
                                 <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
                                   <span className="text-sm font-medium text-orange-600">
                                     {message.fullName.charAt(0).toUpperCase()}
@@ -687,7 +687,7 @@ export default function MessagesAdmin() {
                               >
                                 <td className="px-6 py-4 whitespace-nowrap">
                                   <div className="flex items-center">
-                                    <div className="flex-shrink-0 h-10 w-10">
+                                    <div className="shrink-0 h-10 w-10">
                                       <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
                                         <span className="text-sm font-medium text-orange-600">
                                           {message.fullName.charAt(0).toUpperCase()}
@@ -880,22 +880,22 @@ export default function MessagesAdmin() {
               </div>
 
               {/* Détails du message sélectionné - Version responsive */}
-              <div className="lg:w-96 xl:w-[480px] flex-shrink-0">
+              <div className="lg:w-96 xl:w-[480px] shrink-0">
                 {selectedMessage ? (
                   <div className="bg-white rounded-lg shadow p-4 sm:p-6 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-4">
                       <div className="flex-1 min-w-0">
-                        <h2 className="text-lg sm:text-xl font-bold text-gray-800 break-words">
+                        <h2 className="text-lg sm:text-xl font-bold text-gray-800 wrap-break-words">
                           {selectedMessage.fullName}
                         </h2>
-                        <p className="text-sm text-gray-500 break-words">{selectedMessage.email}</p>
+                        <p className="text-sm text-gray-500 wrap-break-word">{selectedMessage.email}</p>
                         {selectedMessage.company && (
-                          <p className="text-xs text-gray-500 break-words mt-1">
+                          <p className="text-xs text-gray-500 wrap-break-word mt-1">
                             Entreprise: {selectedMessage.company}
                           </p>
                         )}
                         {selectedMessage.service && (
-                          <p className="text-xs text-gray-500 break-words">
+                          <p className="text-xs text-gray-500 wrap-break-word">
                             Service: {selectedMessage.service}
                           </p>
                         )}
@@ -930,7 +930,7 @@ export default function MessagesAdmin() {
                     <div className="mb-4">
                       <h3 className="text-sm font-semibold text-gray-700 mb-2">Message</h3>
                       <div className="bg-gray-50 rounded-lg p-3 max-h-64 overflow-y-auto">
-                        <p className="text-sm text-gray-700 whitespace-pre-wrap break-words">
+                        <p className="text-sm text-gray-700 whitespace-pre-wrap wrap-break-words">
                           {selectedMessage.message}
                         </p>
                       </div>
@@ -940,7 +940,7 @@ export default function MessagesAdmin() {
                       <div className="mb-4">
                         <h3 className="text-sm font-semibold text-gray-700 mb-2">Votre réponse</h3>
                         <div className="bg-orange-50 rounded-lg p-3 border-l-4 border-orange-500">
-                          <p className="text-sm text-gray-700 whitespace-pre-wrap break-words">
+                          <p className="text-sm text-gray-700 whitespace-pre-wrap wrap-break-words">
                             {selectedMessage.adminResponse}
                           </p>
                           {selectedMessage.respondedAt && (
@@ -990,7 +990,7 @@ export default function MessagesAdmin() {
                 <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
                   <p className="text-xs sm:text-sm text-gray-500 mb-2">Message original:</p>
                   <div className="bg-white rounded-lg p-3 max-h-40 overflow-y-auto border border-gray-200">
-                    <p className="text-sm text-gray-700 whitespace-pre-wrap break-words">
+                    <p className="text-sm text-gray-700 whitespace-pre-wrap wrap-break-word">
                       {selectedMessage.message}
                     </p>
                   </div>
@@ -1039,7 +1039,7 @@ export default function MessagesAdmin() {
             <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
               <div className="p-4 sm:p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center shrink-0">
                     <Trash2 className="text-red-600" size={20} />
                   </div>
                   <h2 className="text-lg font-bold text-gray-800">Supprimer le message</h2>
@@ -1089,7 +1089,7 @@ export default function MessagesAdmin() {
             <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
               <div className="p-4 sm:p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center shrink-0">
                     <Download className="text-green-600" size={20} />
                   </div>
                   <h2 className="text-lg font-bold text-gray-800">Exporter les messages</h2>
